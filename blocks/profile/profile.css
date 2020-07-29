@@ -4,3 +4,10 @@
   flex-direction: row;
   align-items: center;
 }
+
+@media screen and (max-width: 768px) {
+  .profile {
+    padding: 42px 19px 36px;
+    flex-direction: column;
+  }
+}

@@ -7,3 +7,12 @@
   margin: 0 17px 16px 0;
   display: inline-block;
 }
+
+@media screen and (max-width: 768px) {
+  .profile__title {
+    font-size: 27px;
+    text-align: center;
+    width: 201px;
+    margin: 0;
+  }
+}
