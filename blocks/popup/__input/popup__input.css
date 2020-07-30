@@ -1,7 +1,7 @@
-.popap__input {
+.popup__input {
   font-family: inherit;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 14px;
   line-height: 17px;
   color: #000000;
@@ -13,11 +13,11 @@
   display: block;
 }
 
-.popap__input:last-of-type {
+.popup__input:last-of-type {
   margin: 0 0 48px 0;
 }
 
-.popap__input:focus {
+.popup__input:focus {
   outline: none;
   border-bottom: 1px solid rgba(0, 0, 0, 1);
 }
