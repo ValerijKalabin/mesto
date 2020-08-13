@@ -24,19 +24,7 @@
         <button class="profile__add-button" type="button"></button>
       </section>
       <section class="elements-container">
-        <ul class="elements">
-          <template id="template-element">
-            <li class="element">
-              <img class="element__image">
-              <div class="element__substrate"></div>
-              <div class="element__text">
-                <h2 class="element__title"></h2>
-                <button class="element__like" type="button"></button>
-              </div>
-              <button class="element__trash" type="button"></button>
-            </li>
-          </template>
-        </ul>
+        <ul class="elements"></ul>
       </section>
     </main>
     <footer class="footer">
@@ -46,8 +34,8 @@
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" name="profile" action="/" method="POST">
-          <input class="popup__input" type="text" name="username" value="Жак-Ив Кусто">
-          <input class="popup__input" type="text" name="description" value="Исследователь океана">
+          <input class="popup__input" type="text" name="username" value="Жак-Ив Кусто" required>
+          <input class="popup__input" type="text" name="description" value="Исследователь океана" required>
           <button class="popup__button" type="submit">Сохранить</button>
         </form>
         <button class="popup__icon-close" type="button"></button>
@@ -57,8 +45,8 @@
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form" name="place" action="/" method="POST">
-          <input class="popup__input" type="text" name="placename" placeholder="Название">
-          <input class="popup__input" type="text" name="link" placeholder="Ссылка на картинку">
+          <input class="popup__input" type="text" name="placename" placeholder="Название" required>
+          <input class="popup__input" type="url" name="link" placeholder="Ссылка на картинку" required>
           <button class="popup__button" type="submit">Создать</button>
         </form>
         <button class="popup__icon-close" type="button"></button>
@@ -72,6 +60,17 @@
       </div>
     </div>
   </div>
+  <template id="template-element">
+    <li class="element">
+      <img class="element__image">
+      <div class="element__substrate"></div>
+      <div class="element__text">
+        <h2 class="element__title"></h2>
+        <button class="element__like" type="button"></button>
+      </div>
+      <button class="element__trash" type="button"></button>
+    </li>
+  </template>
   <script src="./src/index.js"></script>
 </body>
 </html>
