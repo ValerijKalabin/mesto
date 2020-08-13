@@ -1,0 +1,14 @@
+.element__substrate {
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 282px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+}
+
+.element__substrate:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
