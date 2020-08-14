@@ -81,13 +81,6 @@ function addCard(place) {
   cards.prepend(getCloneCard(place));
 }
 
-function popupIsClosed(popup) {
-  if (popup.classList.contains('popup_opened')) {
-    return false;
-  }
-  return true;
-}
-
 function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
