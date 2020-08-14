@@ -66,7 +66,14 @@ function getCloneCard (place) {
   cloneCardTrash.addEventListener('click', (evt) => {
     evt.target.parentElement.remove();
   });
-  cloneCardSubstrate.addEventListener('click', togglePopupPicture);
+  cloneCardSubstrate.addEventListener('click', (evt) => {
+    const popupPictureImage = popupPicture.querySelector('.popup__image');
+    const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
+    popupPictureImage.src = evt.target.previousElementSibling.src;
+    popupPictureTitle.textContent = evt.target.nextElementSibling.querySelector('.element__title').textContent;
+    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
+    togglePopup(popupPicture);
+  });
   return cloneCard;
 }
 
@@ -83,18 +90,6 @@ function popupIsClosed(popup) {
 
 function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
-}
-
-function togglePopupPicture(evt) {
-  if (popupIsClosed(popupPicture)) {
-    const popupPictureImage = popupPicture.querySelector('.popup__image');
-    const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
-
-    popupPictureImage.src = evt.target.previousElementSibling.src;
-    popupPictureTitle.textContent = evt.target.nextElementSibling.querySelector('.element__title').textContent;
-    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
-  }
-  togglePopup(popupPicture);
 }
 
 function editProfile(evt) {
@@ -134,7 +129,9 @@ buttonClosePopupProfile.addEventListener('click', () => {
 buttonClosePopupPlace.addEventListener('click', () => {
   togglePopup(popupPlace);
 });
-buttonClosePopupPicture.addEventListener('click',togglePopupPicture);
+buttonClosePopupPicture.addEventListener('click', () => {
+  togglePopup(popupPicture);
+});
 popupProfileForm.addEventListener('submit', editProfile);
 popupPlaceForm.addEventListener('submit', createCard);
 
