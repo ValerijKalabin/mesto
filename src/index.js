@@ -85,14 +85,6 @@ function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
 
-function togglePopupProfile() {
-  if (popupIsClosed(popupProfile)) {
-    popupProfileFormName.value = profileTitle.textContent;
-    popupProfileFormDescription.value = profileDescription.textContent;
-  }
-  togglePopup(popupProfile);
-}
-
 function togglePopupPlace() {
   togglePopup(popupPlace);
 }
@@ -116,7 +108,7 @@ function editProfile(evt) {
     profileTitle.textContent = popupProfileFormName.value;
     profileDescription.textContent = popupProfileFormDescription.value;
   }
-  togglePopupProfile();
+  togglePopup(popupProfile);
 }
 
 function createCard(evt) {
@@ -132,9 +124,15 @@ function createCard(evt) {
   togglePopupPlace();
 }
 
-buttonOpenPopupProfile.addEventListener('click', togglePopupProfile);
+buttonOpenPopupProfile.addEventListener('click', () => {
+  popupProfileFormName.value = profileTitle.textContent;
+  popupProfileFormDescription.value = profileDescription.textContent;
+  togglePopup(popupProfile);
+});
 buttonOpenPopupPlace.addEventListener('click', togglePopupPlace);
-buttonClosePopupProfile.addEventListener('click', togglePopupProfile);
+buttonClosePopupProfile.addEventListener('click', () => {
+  togglePopup(popupProfile);
+});
 buttonClosePopupPlace.addEventListener('click', togglePopupPlace);
 buttonClosePopupPicture.addEventListener('click',togglePopupPicture);
 popupProfileForm.addEventListener('submit', editProfile);
