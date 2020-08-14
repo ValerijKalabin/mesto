@@ -123,9 +123,10 @@ function createCard(evt) {
   evt.preventDefault();
 
   if (popupPlaceFormName.value && popupPlaceFormLink.value) {
-    const newPlace = {};
-    newPlace.name = popupPlaceFormName.value;
-    newPlace.link = popupPlaceFormLink.value;
+    const newPlace = {
+      name: popupPlaceFormName.value,
+      link: popupPlaceFormLink.value
+    };
     addCard(newPlace);
   }
   togglePopupPlace();
