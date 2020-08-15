@@ -81,35 +81,13 @@ function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
 
-function createCard(evt) {
-  evt.preventDefault();
-
-  if (popupPlaceFormName.value && popupPlaceFormLink.value) {
-    const newPlace = {
-      name: popupPlaceFormName.value,
-      link: popupPlaceFormLink.value
-    };
-    addCard(newPlace);
-  }
-  togglePopup(popupPlace);
-}
-
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfileFormName.value = profileTitle.textContent;
   popupProfileFormDescription.value = profileDescription.textContent;
   togglePopup(popupProfile);
 });
-buttonOpenPopupPlace.addEventListener('click', () => {
-  togglePopup(popupPlace);
-});
 buttonClosePopupProfile.addEventListener('click', () => {
   togglePopup(popupProfile);
-});
-buttonClosePopupPlace.addEventListener('click', () => {
-  togglePopup(popupPlace);
-});
-buttonClosePopupPicture.addEventListener('click', () => {
-  togglePopup(popupPicture);
 });
 popupProfileForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -117,7 +95,27 @@ popupProfileForm.addEventListener('submit', (evt) => {
   profileDescription.textContent = popupProfileFormDescription.value;
   togglePopup(popupProfile);
 });
-popupPlaceForm.addEventListener('submit', createCard);
+
+buttonOpenPopupPlace.addEventListener('click', () => {
+  togglePopup(popupPlace);
+});
+buttonClosePopupPlace.addEventListener('click', () => {
+  togglePopup(popupPlace);
+});
+popupPlaceForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const newPlace = {
+    name: popupPlaceFormName.value,
+    link: popupPlaceFormLink.value
+  };
+  addCard(newPlace);
+  togglePopup(popupPlace);
+  popupPlaceForm.reset();
+});
+
+buttonClosePopupPicture.addEventListener('click', () => {
+  togglePopup(popupPicture);
+});
 
 initialPlaces.forEach((place) => {
   addCard(place);
