@@ -48,8 +48,10 @@ const popupPlaceFormLink = popupPlaceForm.querySelector('[name="link"]');
 
 const popupPicture = document.querySelector('.popup_task_picture');
 const buttonClosePopupPicture = popupPicture.querySelector('.popup__icon-close');
+const popupPictureImage = popupPicture.querySelector('.popup__image');
+const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
 
-function getCloneCard (place) {
+function addCard (place) {
   const cloneCard = templateCard.cloneNode(true);
   const cloneCardImage = cloneCard.querySelector('.element__image');
   const cloneCardTitle = cloneCard.querySelector('.element__title');
@@ -67,18 +69,12 @@ function getCloneCard (place) {
     evt.target.parentElement.remove();
   });
   cloneCardSubstrate.addEventListener('click', (evt) => {
-    const popupPictureImage = popupPicture.querySelector('.popup__image');
-    const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
     popupPictureImage.src = evt.target.previousElementSibling.src;
     popupPictureTitle.textContent = evt.target.nextElementSibling.querySelector('.element__title').textContent;
     popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
     togglePopup(popupPicture);
   });
-  return cloneCard;
-}
-
-function addCard(place) {
-  cards.prepend(getCloneCard(place));
+  cards.prepend(cloneCard);
 }
 
 function togglePopup(popup) {
