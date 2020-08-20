@@ -51,7 +51,7 @@ const buttonClosePopupPicture = popupPicture.querySelector('.popup__icon-close')
 const popupPictureImage = popupPicture.querySelector('.popup__image');
 const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
 
-function addCard (place) {
+function getCloneCard (place) {
   const cloneCard = templateCard.cloneNode(true);
   const cloneCardImage = cloneCard.querySelector('.element__image');
   const cloneCardTitle = cloneCard.querySelector('.element__title');
@@ -74,7 +74,11 @@ function addCard (place) {
     popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
     togglePopup(popupPicture);
   });
-  cards.prepend(cloneCard);
+  return cloneCard;
+}
+
+function addCard(place) {
+  cards.prepend(getCloneCard(place));
 }
 
 function togglePopup(popup) {
