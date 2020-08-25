@@ -55,25 +55,9 @@ function getCloneCard (place) {
   const cloneCard = templateCard.cloneNode(true);
   const cloneCardImage = cloneCard.querySelector('.element__image');
   const cloneCardTitle = cloneCard.querySelector('.element__title');
-  const cloneCardLike = cloneCard.querySelector('.element__like');
-  const cloneCardTrash = cloneCard.querySelector('.element__trash');
-  const cloneCardSubstrate = cloneCard.querySelector('.element__substrate');
-
   cloneCardImage.src = place.link;
   cloneCardImage.alt = place.name;
   cloneCardTitle.textContent = place.name;
-  cloneCardLike.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('element__like_active');
-  });
-  cloneCardTrash.addEventListener('click', (evt) => {
-    evt.target.parentElement.remove();
-  });
-  cloneCardSubstrate.addEventListener('click', (evt) => {
-    popupPictureImage.src = evt.target.previousElementSibling.src;
-    popupPictureTitle.textContent = evt.target.nextElementSibling.querySelector('.element__title').textContent;
-    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
-    togglePopup(popupPicture);
-  });
   return cloneCard;
 }
 
@@ -119,6 +103,20 @@ popupPlaceForm.addEventListener('submit', (evt) => {
 
 buttonClosePopupPicture.addEventListener('click', () => {
   togglePopup(popupPicture);
+});
+
+cards.addEventListener('click', (evt) => {
+  const clickElement = evt.target;
+  if(clickElement.classList.contains('element__like')) {
+    clickElement.classList.toggle('element__like_active');
+  } else if(clickElement.classList.contains('element__trash')) {
+    clickElement.parentElement.remove();
+  } else if(clickElement.classList.contains('element__substrate')) {
+    popupPictureImage.src = clickElement.previousElementSibling.src;
+    popupPictureTitle.textContent = clickElement.nextElementSibling.querySelector('.element__title').textContent;
+    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
+    togglePopup(popupPicture);
+  }
 });
 
 initialPlaces.forEach((place) => {
