@@ -10,9 +10,6 @@ const initialSelectors = {
 function enableValidation(selectors) {
   const formList = Array.from(document.querySelectorAll(selectors.formSelector));
   formList.forEach((formElement) => {
-    formElement.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-    });
     setEventListeners(formElement, selectors);
   });
 };
