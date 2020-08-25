@@ -66,6 +66,15 @@ function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
 
+function closePopup() {
+  const popupList = Array.from(document.querySelectorAll('.popup'));
+  popupList.forEach((popupElement) => {
+    if(popupElement.classList.contains('popup_opened')) {
+      popupElement.classList.remove('popup_opened');
+    }
+  });
+}
+
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfileFormName.value = profileTitle.textContent;
   popupProfileFormDescription.value = profileDescription.textContent;
@@ -76,11 +85,6 @@ popupProfileForm.addEventListener('submit', (evt) => {
   profileTitle.textContent = popupProfileFormName.value;
   profileDescription.textContent = popupProfileFormDescription.value;
   togglePopup(popupProfile);
-});
-popupProfile.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup_task_profile') || evt.target.classList.contains('popup__icon-close')) {
-    togglePopup(popupProfile);
-  }
 });
 
 buttonOpenPopupPlace.addEventListener('click', () => {
@@ -96,15 +100,16 @@ popupPlaceForm.addEventListener('submit', (evt) => {
   togglePopup(popupPlace);
   popupPlaceForm.reset();
 });
-popupPlace.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup_task_place') || evt.target.classList.contains('popup__icon-close')) {
-    togglePopup(popupPlace);
+
+document.addEventListener('click', (evt) => {
+  if(evt.target.classList.contains('popup') || evt.target.classList.contains('popup__icon-close')) {
+    closePopup();
   }
 });
 
-popupPicture.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup_task_picture') || evt.target.classList.contains('popup__icon-close')) {
-    togglePopup(popupPicture);
+document.addEventListener('keydown', (evt) => {
+  if(evt.key === 'Escape') {
+    closePopup();
   }
 });
 
