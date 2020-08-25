@@ -35,19 +35,16 @@ const profileTitle = profile.querySelector('.profile__title');
 const profileDescription = profile.querySelector('.profile__description');
 
 const popupProfile = document.querySelector('.popup_task_profile');
-const buttonClosePopupProfile = popupProfile.querySelector('.popup__icon-close');
 const popupProfileForm = popupProfile.querySelector('.popup__form');
 const popupProfileFormName = popupProfileForm.querySelector('[name="username"]');
 const popupProfileFormDescription = popupProfileForm.querySelector('[name="description"]');
 
 const popupPlace = document.querySelector('.popup_task_place');
-const buttonClosePopupPlace = popupPlace.querySelector('.popup__icon-close');
 const popupPlaceForm = popupPlace.querySelector('.popup__form');
 const popupPlaceFormName = popupPlaceForm.querySelector('[name="placename"]');
 const popupPlaceFormLink = popupPlaceForm.querySelector('[name="link"]');
 
 const popupPicture = document.querySelector('.popup_task_picture');
-const buttonClosePopupPicture = popupPicture.querySelector('.popup__icon-close');
 const popupPictureImage = popupPicture.querySelector('.popup__image');
 const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
 
@@ -74,9 +71,6 @@ buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfileFormDescription.value = profileDescription.textContent;
   togglePopup(popupProfile);
 });
-buttonClosePopupProfile.addEventListener('click', () => {
-  togglePopup(popupProfile);
-});
 popupProfileForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   profileTitle.textContent = popupProfileFormName.value;
@@ -84,15 +78,12 @@ popupProfileForm.addEventListener('submit', (evt) => {
   togglePopup(popupProfile);
 });
 popupProfile.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup_task_profile')) {
+  if(evt.target.classList.contains('popup_task_profile') || evt.target.classList.contains('popup__icon-close')) {
     togglePopup(popupProfile);
   }
 });
 
 buttonOpenPopupPlace.addEventListener('click', () => {
-  togglePopup(popupPlace);
-});
-buttonClosePopupPlace.addEventListener('click', () => {
   togglePopup(popupPlace);
 });
 popupPlaceForm.addEventListener('submit', (evt) => {
@@ -106,16 +97,13 @@ popupPlaceForm.addEventListener('submit', (evt) => {
   popupPlaceForm.reset();
 });
 popupPlace.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup_task_place')) {
+  if(evt.target.classList.contains('popup_task_place') || evt.target.classList.contains('popup__icon-close')) {
     togglePopup(popupPlace);
   }
 });
 
-buttonClosePopupPicture.addEventListener('click', () => {
-  togglePopup(popupPicture);
-});
 popupPicture.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup_task_picture')) {
+  if(evt.target.classList.contains('popup_task_picture') || evt.target.classList.contains('popup__icon-close')) {
     togglePopup(popupPicture);
   }
 });
