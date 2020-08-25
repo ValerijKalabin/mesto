@@ -66,11 +66,11 @@ function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
 
-function resetPopupForm(popapForm) {
-  const inputList = Array.from(popapForm.querySelectorAll('.popup__input'));
-  const errorList = Array.from(popapForm.querySelectorAll('.popup__error'));
-  const battonElement = popapForm.querySelector('.popup__button');
-  popapForm.reset();
+function resetPopupForm(popupForm) {
+  const inputList = Array.from(popupForm.querySelectorAll('.popup__input'));
+  const errorList = Array.from(popupForm.querySelectorAll('.popup__error'));
+  const buttonElement = popupForm.querySelector('.popup__button');
+  popupForm.reset();
   inputList.forEach(inputElement => {
     inputElement.className = 'popup__input';
   });
@@ -78,9 +78,9 @@ function resetPopupForm(popapForm) {
     errorElement.className = 'popup__error';
     errorElement.textContent = '';
   });
-  battonElement.className = 'popup__button popup__button_disabled';
-  if(!battonElement.hasAttribute('disabled')) {
-    battonElement.setAttribute('disabled', true);
+  buttonElement.className = 'popup__button popup__button_disabled';
+  if(!buttonElement.hasAttribute('disabled')) {
+    buttonElement.setAttribute('disabled', true);
   }
 }
 
