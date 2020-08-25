@@ -38,11 +38,13 @@ const popupProfile = document.querySelector('.popup_task_profile');
 const popupProfileForm = popupProfile.querySelector('.popup__form');
 const popupProfileFormName = popupProfileForm.querySelector('[name="username"]');
 const popupProfileFormDescription = popupProfileForm.querySelector('[name="description"]');
+const popupProfileFormButton = popupProfileForm.querySelector('.popup__button');
 
 const popupPlace = document.querySelector('.popup_task_place');
 const popupPlaceForm = popupPlace.querySelector('.popup__form');
 const popupPlaceFormName = popupPlaceForm.querySelector('[name="placename"]');
 const popupPlaceFormLink = popupPlaceForm.querySelector('[name="link"]');
+const popupPlaceFormButton = popupPlaceForm.querySelector('.popup__button');
 
 const popupPicture = document.querySelector('.popup_task_picture');
 const popupPictureImage = popupPicture.querySelector('.popup__image');
@@ -85,6 +87,9 @@ popupProfileForm.addEventListener('submit', (evt) => {
   profileTitle.textContent = popupProfileFormName.value;
   profileDescription.textContent = popupProfileFormDescription.value;
   togglePopup(popupProfile);
+  popupProfileForm.reset();
+  popupProfileFormButton.classList.add('popup__button_disabled');
+  popupProfileFormButton.setAttribute('disabled', true);
 });
 
 buttonOpenPopupPlace.addEventListener('click', () => {
@@ -99,18 +104,8 @@ popupPlaceForm.addEventListener('submit', (evt) => {
   addCard(newPlace);
   togglePopup(popupPlace);
   popupPlaceForm.reset();
-});
-
-document.addEventListener('click', (evt) => {
-  if(evt.target.classList.contains('popup') || evt.target.classList.contains('popup__icon-close')) {
-    closePopup();
-  }
-});
-
-document.addEventListener('keydown', (evt) => {
-  if(evt.key === 'Escape') {
-    closePopup();
-  }
+  popupPlaceFormButton.classList.add('popup__button_disabled');
+  popupPlaceFormButton.setAttribute('disabled', true);
 });
 
 cards.addEventListener('click', (evt) => {
@@ -124,6 +119,18 @@ cards.addEventListener('click', (evt) => {
     popupPictureTitle.textContent = clickElement.nextElementSibling.querySelector('.element__title').textContent;
     popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
     togglePopup(popupPicture);
+  }
+});
+
+document.addEventListener('click', (evt) => {
+  if(evt.target.classList.contains('popup') || evt.target.classList.contains('popup__icon-close')) {
+    closePopup();
+  }
+});
+
+document.addEventListener('keydown', (evt) => {
+  if(evt.key === 'Escape') {
+    closePopup();
   }
 });
 
