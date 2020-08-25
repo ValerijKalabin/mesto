@@ -33,7 +33,7 @@
     <div class="popup popup_task_profile">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="profile" action="/" method="POST">
+        <form class="popup__form" name="profile" action="/" method="POST" novalidate>
           <input class="popup__input" type="text" name="username" placeholder="Имя" required minlength="2" maxlength="40">
           <input class="popup__input" type="text" name="description" placeholder="О себе" required minlength="2" maxlength="200">
           <button class="popup__button" type="submit">Сохранить</button>
@@ -44,7 +44,7 @@
     <div class="popup popup_task_place">
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" name="place" action="/" method="POST">
+        <form class="popup__form" name="place" action="/" method="POST" novalidate>
           <input class="popup__input" type="text" name="placename" placeholder="Название" required maxlength="30">
           <input class="popup__input" type="url" name="link" placeholder="Ссылка на картинку" required>
           <button class="popup__button" type="submit">Создать</button>
