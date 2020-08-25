@@ -83,6 +83,11 @@ popupProfileForm.addEventListener('submit', (evt) => {
   profileDescription.textContent = popupProfileFormDescription.value;
   togglePopup(popupProfile);
 });
+popupProfile.addEventListener('click', (evt) => {
+  if(evt.target.classList.contains('popup_task_profile')) {
+    togglePopup(popupProfile);
+  }
+});
 
 buttonOpenPopupPlace.addEventListener('click', () => {
   togglePopup(popupPlace);
@@ -100,9 +105,19 @@ popupPlaceForm.addEventListener('submit', (evt) => {
   togglePopup(popupPlace);
   popupPlaceForm.reset();
 });
+popupPlace.addEventListener('click', (evt) => {
+  if(evt.target.classList.contains('popup_task_place')) {
+    togglePopup(popupPlace);
+  }
+});
 
 buttonClosePopupPicture.addEventListener('click', () => {
   togglePopup(popupPicture);
+});
+popupPicture.addEventListener('click', (evt) => {
+  if(evt.target.classList.contains('popup_task_picture')) {
+    togglePopup(popupPicture);
+  }
 });
 
 cards.addEventListener('click', (evt) => {
