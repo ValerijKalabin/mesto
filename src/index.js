@@ -87,7 +87,7 @@ function resetPopupForm(popupForm) {
 }
 
 function openPopup(popupElement) {
-  document.addEventListener('keydown', escapePopup);
+  document.addEventListener('keyup', escapePopup);
   popupElement.classList.add('popup_opened');
 }
 
@@ -96,7 +96,7 @@ function closePopup() {
   popupList.forEach((popupElement) => {
     if(popupElement.classList.contains('popup_opened')) {
       popupElement.classList.remove('popup_opened');
-      document.removeEventListener('keydown', escapePopup);
+      document.removeEventListener('keyup', escapePopup);
       if(popupElement.classList.contains('popup_task_profile') || popupElement.classList.contains('popup_task_place')) {
         const formElement = popupElement.querySelector('.popup__form');
         resetPopupForm(formElement);
@@ -134,9 +134,19 @@ cards.addEventListener('click', (evt) => {
   const clickElement = evt.target;
   if(clickElement.classList.contains('element__like')) {
     clickElement.classList.toggle('element__like_active');
-  } else if(clickElement.classList.contains('element__trash')) {
+  }
+});
+
+cards.addEventListener('click', (evt) => {
+  const clickElement = evt.target;
+  if(clickElement.classList.contains('element__trash')) {
     clickElement.parentElement.remove();
-  } else if(clickElement.classList.contains('element__substrate')) {
+  }
+});
+
+cards.addEventListener('click', (evt) => {
+  const clickElement = evt.target;
+  if(clickElement.classList.contains('element__substrate')) {
     popupPictureImage.src = clickElement.previousElementSibling.src;
     popupPictureTitle.textContent = clickElement.nextElementSibling.querySelector('.element__title').textContent;
     popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
