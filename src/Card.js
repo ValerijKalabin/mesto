@@ -1,3 +1,5 @@
+import {popupPictureImage, popupPictureTitle, openPopup, popupPicture} from './index.js';
+
 export default class Card
 {
   constructor(templateID, place) {
@@ -47,7 +49,7 @@ export default class Card
   }
 
   _handleCardDelete() {
-    this._card.remove();
+    this._cardTrash.parentElement.remove();
   }
 
   _handlePictureShow() {

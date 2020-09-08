@@ -1,3 +1,5 @@
+import Card from './Card.js';
+
 const initialPlaces = [
   {
     name: 'Архыз',
@@ -26,7 +28,6 @@ const initialPlaces = [
 ];
 
 const cards = document.querySelector('.elements');
-const templateCard = document.querySelector('#template-element').content;
 
 const profile = document.querySelector('.profile');
 const buttonOpenPopupProfile = profile.querySelector('.profile__edit-button');
@@ -54,18 +55,9 @@ const escapePopup = function(evt) {
   }
 }
 
-function getCloneCard (place) {
-  const cloneCard = templateCard.cloneNode(true);
-  const cloneCardImage = cloneCard.querySelector('.element__image');
-  const cloneCardTitle = cloneCard.querySelector('.element__title');
-  cloneCardImage.src = place.link;
-  cloneCardImage.alt = place.name;
-  cloneCardTitle.textContent = place.name;
-  return cloneCard;
-}
-
 function addCard(place) {
-  cards.prepend(getCloneCard(place));
+  const newCard = new Card('#template-element', place);
+  cards.prepend(newCard.generateCard());
 }
 
 function resetPopupForm(popupForm) {
@@ -130,30 +122,6 @@ popupPlaceForm.addEventListener('submit', (evt) => {
   closePopup();
 });
 
-cards.addEventListener('click', (evt) => {
-  const clickElement = evt.target;
-  if(clickElement.classList.contains('element__like')) {
-    clickElement.classList.toggle('element__like_active');
-  }
-});
-
-cards.addEventListener('click', (evt) => {
-  const clickElement = evt.target;
-  if(clickElement.classList.contains('element__trash')) {
-    clickElement.parentElement.remove();
-  }
-});
-
-cards.addEventListener('click', (evt) => {
-  const clickElement = evt.target;
-  if(clickElement.classList.contains('element__substrate')) {
-    popupPictureImage.src = clickElement.previousElementSibling.src;
-    popupPictureTitle.textContent = clickElement.nextElementSibling.querySelector('.element__title').textContent;
-    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
-    openPopup(popupPicture);
-  }
-});
-
 document.addEventListener('click', (evt) => {
   const clickElement = evt.target;
   if(clickElement.classList.contains('popup') || clickElement.classList.contains('popup__icon-close')) {
@@ -164,3 +132,5 @@ document.addEventListener('click', (evt) => {
 initialPlaces.forEach((place) => {
   addCard(place);
 });
+
+export {popupPictureImage, popupPictureTitle, openPopup, popupPicture};
