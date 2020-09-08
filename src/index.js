@@ -104,18 +104,10 @@ function openPopup(popupElement) {
 }
 
 function closePopup() {
-  const popupList = Array.from(document.querySelectorAll('.popup'));
-  popupList.forEach((popupElement) => {
-    if(popupElement.classList.contains('popup_opened')) {
-      popupElement.classList.remove('popup_opened');
-      document.removeEventListener('click', clickClosePopup);
-      document.removeEventListener('keyup', escapeClosePopup);
-      if(popupElement.classList.contains('popup_task_profile') || popupElement.classList.contains('popup_task_place')) {
-        const formElement = popupElement.querySelector('.popup__form');
-        resetPopupForm(formElement);
-      }
-    }
-  });
+  const popupElement = document.querySelector('.popup_opened');
+  popupElement.classList.remove('popup_opened');
+  document.removeEventListener('click', clickClosePopup);
+  document.removeEventListener('keyup', escapeClosePopup);
 }
 
 buttonOpenPopupProfile.addEventListener('click', () => {
