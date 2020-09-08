@@ -1,4 +1,14 @@
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
+const initialSelectors = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
 
 const initialPlaces = [
   {
@@ -36,14 +46,16 @@ const profileTitle = profile.querySelector('.profile__title');
 const profileDescription = profile.querySelector('.profile__description');
 
 const popupProfile = document.querySelector('.popup_task_profile');
-const popupProfileForm = popupProfile.querySelector('.popup__form');
-const popupProfileFormName = popupProfileForm.querySelector('[name="username"]');
-const popupProfileFormDescription = popupProfileForm.querySelector('[name="description"]');
+const popupProfileForm = document.forms.profile;
+const popupProfileFormName = popupProfileForm.elements.username;
+const popupProfileFormDescription = popupProfileForm.elements.description;
 
 const popupPlace = document.querySelector('.popup_task_place');
-const popupPlaceForm = popupPlace.querySelector('.popup__form');
-const popupPlaceFormName = popupPlaceForm.querySelector('[name="placename"]');
-const popupPlaceFormLink = popupPlaceForm.querySelector('[name="link"]');
+const popupPlaceForm = document.forms.place;
+const popupPlaceFormName = popupPlaceForm.elements.placename;
+const popupPlaceFormLink = popupPlaceForm.elements.link;
+
+const popupFormList = [popupProfileForm, popupPlaceForm];
 
 const popupPicture = document.querySelector('.popup_task_picture');
 const popupPictureImage = popupPicture.querySelector('.popup__image');
@@ -103,7 +115,6 @@ buttonOpenPopupProfile.addEventListener('click', () => {
   openPopup(popupProfile);
 });
 popupProfileForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
   profileTitle.textContent = popupProfileFormName.value;
   profileDescription.textContent = popupProfileFormDescription.value;
   closePopup();
@@ -113,7 +124,6 @@ buttonOpenPopupPlace.addEventListener('click', () => {
   openPopup(popupPlace);
 });
 popupPlaceForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
   const newPlace = {
     name: popupPlaceFormName.value,
     link: popupPlaceFormLink.value
@@ -127,6 +137,11 @@ document.addEventListener('click', (evt) => {
   if(clickElement.classList.contains('popup') || clickElement.classList.contains('popup__icon-close')) {
     closePopup();
   }
+});
+
+popupFormList.forEach((popupForm) => {
+  const newFormValidator = new FormValidator(initialSelectors, popupForm);
+  newFormValidator.enableValidation();
 });
 
 initialPlaces.forEach((place) => {
