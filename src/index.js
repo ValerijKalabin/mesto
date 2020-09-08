@@ -79,27 +79,44 @@ function addCard(place) {
   cards.prepend(newCard.generateCard());
 }
 
-function resetPopupForm(popupForm) {
+function initialInputState(inputElement) {
+  inputElement.className = 'popup__input';
+  const errorElement = inputElement.nextElementSibling;
+  errorElement.className = 'popup__error';
+  errorElement.textContent = '';
+}
+
+function activeButtonState(buttonElement) {
+  buttonElement.classList.remove(initialSelectors.inactiveButtonClass);
+  buttonElement.removeAttribute('disabled');
+}
+
+function inactiveButtonState(buttonElement) {
+  buttonElement.classList.add(initialSelectors.inactiveButtonClass);
+  buttonElement.setAttribute('disabled', true);
+}
+
+function initialFormState(popupForm) {
   const inputList = Array.from(popupForm.querySelectorAll('.popup__input'));
-  const errorList = Array.from(popupForm.querySelectorAll('.popup__error'));
   const buttonElement = popupForm.querySelector('.popup__button');
-  popupForm.reset();
   inputList.forEach(inputElement => {
-    inputElement.className = 'popup__input';
+    initialInputState(inputElement);
   });
-  errorList.forEach(errorElement => {
-    errorElement.className = 'popup__error';
-    errorElement.textContent = '';
-  });
-  buttonElement.className = 'popup__button popup__button_disabled';
-  if(!buttonElement.hasAttribute('disabled')) {
-    buttonElement.setAttribute('disabled', true);
+  if(popupForm.name === 'profile') {
+    activeButtonState(buttonElement);
+  } else if(popupForm.name === 'place') {
+    inactiveButtonState(buttonElement)
   }
+  popupForm.reset();
 }
 
 function openPopup(popupElement) {
   document.addEventListener('keyup', escapeClosePopup);
   document.addEventListener('click', clickClosePopup);
+  const popupForm = popupElement.querySelector('.popup__form');
+  if(popupForm) {
+    initialFormState(popupForm);
+  }
   popupElement.classList.add('popup_opened');
 }
 
@@ -111,9 +128,9 @@ function closePopup() {
 }
 
 buttonOpenPopupProfile.addEventListener('click', () => {
+  openPopup(popupProfile);
   popupProfileFormName.value = profileTitle.textContent;
   popupProfileFormDescription.value = profileDescription.textContent;
-  openPopup(popupProfile);
 });
 popupProfileForm.addEventListener('submit', (evt) => {
   profileTitle.textContent = popupProfileFormName.value;
