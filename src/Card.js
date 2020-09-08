@@ -22,8 +22,38 @@ export default class Card
     this._cardImage.src = this._image;
     this._cardImage.alt = this._title;
     this._cardTitle.textContent = this._title;
-    //this._setEventListeners();
-
+    this._setEventListeners();
   	return this._card;
+  }
+
+  _setEventListeners() {
+    this._cardLike = this._card.querySelector('.element__like');
+    this._cardTrash = this._card.querySelector('.element__trash');
+    this._cardSubstrate = this._card.querySelector('.element__substrate');
+
+    this._cardLike.addEventListener('click', () => {
+      this._handleLikeToggle();
+    });
+    this._cardTrash.addEventListener('click', () => {
+      this._handleCardDelete();
+    });
+    this._cardSubstrate.addEventListener('click', () => {
+      this._handlePictureShow();
+    });
+  }
+
+  _handleLikeToggle() {
+    this._cardLike.classList.toggle('element__like_active');
+  }
+
+  _handleCardDelete() {
+    this._card.remove();
+  }
+
+  _handlePictureShow() {
+    popupPictureImage.src = this._image;
+    popupPictureTitle.textContent = this._title;
+    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
+    openPopup(popupPicture);
   }
 }
