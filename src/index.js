@@ -80,9 +80,18 @@ const openPopup = function(popupElement) {
   popupElement.classList.add('popup_opened');
 }
 
-function addCard(place) {
-  const newCard = new Card('#template-element', openPopup, place);
-  cards.prepend(newCard.generateCard());
+function initialFormState(popupForm) {
+  const inputList = Array.from(popupForm.querySelectorAll('.popup__input'));
+  const buttonElement = popupForm.querySelector('.popup__button');
+  inputList.forEach(inputElement => {
+    initialInputState(inputElement);
+  });
+  if(popupForm.name === 'profile') {
+    activeButtonState(buttonElement);
+  } else if(popupForm.name === 'place') {
+    inactiveButtonState(buttonElement)
+  }
+  popupForm.reset();
 }
 
 function initialInputState(inputElement) {
@@ -102,25 +111,21 @@ function inactiveButtonState(buttonElement) {
   buttonElement.setAttribute('disabled', true);
 }
 
-function initialFormState(popupForm) {
-  const inputList = Array.from(popupForm.querySelectorAll('.popup__input'));
-  const buttonElement = popupForm.querySelector('.popup__button');
-  inputList.forEach(inputElement => {
-    initialInputState(inputElement);
-  });
-  if(popupForm.name === 'profile') {
-    activeButtonState(buttonElement);
-  } else if(popupForm.name === 'place') {
-    inactiveButtonState(buttonElement)
-  }
-  popupForm.reset();
-}
-
 function closePopup() {
   const popupElement = document.querySelector('.popup_opened');
   popupElement.classList.remove('popup_opened');
   document.removeEventListener('click', clickClosePopup);
   document.removeEventListener('keyup', escapeClosePopup);
+}
+
+function validateForm(popupForm) {
+  const newFormValidator = new FormValidator(initialSelectors, popupForm);
+  newFormValidator.enableValidation();
+}
+
+function addCard(place) {
+  const newCard = new Card('#template-element', openPopup, place);
+  cards.prepend(newCard.generateCard());
 }
 
 buttonOpenPopupProfile.addEventListener('click', () => {
@@ -147,8 +152,7 @@ popupPlaceForm.addEventListener('submit', (evt) => {
 });
 
 popupFormList.forEach((popupForm) => {
-  const newFormValidator = new FormValidator(initialSelectors, popupForm);
-  newFormValidator.enableValidation();
+  validateForm(popupForm)
 });
 
 initialPlaces.forEach((place) => {
