@@ -57,10 +57,6 @@ const popupPlaceFormLink = popupPlaceForm.elements.link;
 
 const popupFormList = [popupProfileForm, popupPlaceForm];
 
-const popupPicture = document.querySelector('.popup_task_picture');
-const popupPictureImage = popupPicture.querySelector('.popup__image');
-const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
-
 const escapeClosePopup = function(evt) {
   if(evt.key === 'Escape') {
     closePopup();
@@ -74,8 +70,18 @@ const clickClosePopup = function(evt) {
   }
 }
 
+const openPopup = function(popupElement) {
+  document.addEventListener('keyup', escapeClosePopup);
+  document.addEventListener('click', clickClosePopup);
+  const popupForm = popupElement.querySelector('.popup__form');
+  if(popupForm) {
+    initialFormState(popupForm);
+  }
+  popupElement.classList.add('popup_opened');
+}
+
 function addCard(place) {
-  const newCard = new Card('#template-element', place);
+  const newCard = new Card('#template-element', openPopup, place);
   cards.prepend(newCard.generateCard());
 }
 
@@ -108,16 +114,6 @@ function initialFormState(popupForm) {
     inactiveButtonState(buttonElement)
   }
   popupForm.reset();
-}
-
-function openPopup(popupElement) {
-  document.addEventListener('keyup', escapeClosePopup);
-  document.addEventListener('click', clickClosePopup);
-  const popupForm = popupElement.querySelector('.popup__form');
-  if(popupForm) {
-    initialFormState(popupForm);
-  }
-  popupElement.classList.add('popup_opened');
 }
 
 function closePopup() {
@@ -158,5 +154,3 @@ popupFormList.forEach((popupForm) => {
 initialPlaces.forEach((place) => {
   addCard(place);
 });
-
-export {popupPictureImage, popupPictureTitle, openPopup, popupPicture};

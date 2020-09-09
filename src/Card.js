@@ -1,9 +1,8 @@
-import {popupPictureImage, popupPictureTitle, openPopup, popupPicture} from './index.js';
-
 export default class Card
 {
-  constructor(templateID, place) {
+  constructor(templateID, openPopup, place) {
     this._template = templateID;
+    this._openPopup = openPopup;
     this._title = place.name;
     this._image = place.link;
   }
@@ -53,9 +52,12 @@ export default class Card
   }
 
   _handlePictureShow() {
+    const popupPicture = document.querySelector('.popup_task_picture');
+    const popupPictureImage = popupPicture.querySelector('.popup__image');
+    const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
     popupPictureImage.src = this._image;
     popupPictureTitle.textContent = this._title;
     popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
-    openPopup(popupPicture);
+    this._openPopup(popupPicture);
   }
 }
