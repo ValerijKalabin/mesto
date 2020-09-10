@@ -11,6 +11,7 @@ export default class Card
   	const cloneTemplate = document
       .querySelector(this._template)
       .content
+      .querySelector('.element')
       .cloneNode(true);
 
     return cloneTemplate;
@@ -48,7 +49,7 @@ export default class Card
   }
 
   _handleCardDelete() {
-    this._cardTrash.parentElement.remove();
+    this._card.remove();
   }
 
   _handlePictureShow() {
