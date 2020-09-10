@@ -55,7 +55,8 @@ const popupPlaceForm = document.forms.place;
 const popupPlaceFormName = popupPlaceForm.elements.placename;
 const popupPlaceFormLink = popupPlaceForm.elements.link;
 
-const popupFormList = [popupProfileForm, popupPlaceForm];
+const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
+const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
 
 const escapeClosePopup = function(evt) {
   if(evt.key === 'Escape') {
@@ -118,11 +119,6 @@ function closePopup() {
   document.removeEventListener('keyup', escapeClosePopup);
 }
 
-function validateForm(popupForm) {
-  const newFormValidator = new FormValidator(initialSelectors, popupForm);
-  newFormValidator.enableValidation();
-}
-
 function addCard(place) {
   const newCard = new Card('#template-element', openPopup, place);
   cards.prepend(newCard.generateCard());
@@ -151,9 +147,8 @@ popupPlaceForm.addEventListener('submit', (evt) => {
   closePopup();
 });
 
-popupFormList.forEach((popupForm) => {
-  validateForm(popupForm)
-});
+profileFormValidator.enableValidation();
+placeFormValidator.enableValidation();
 
 initialPlaces.forEach((place) => {
   addCard(place);
