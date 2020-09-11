@@ -1,3 +1,9 @@
+import {
+  popupPicture,
+  popupPictureImage,
+  popupPictureTitle
+} from './constants.js';
+
 export default class Card
 {
   constructor(templateID, openPopup, place) {
@@ -48,9 +54,6 @@ export default class Card
   }
 
   _handlePictureShow() {
-    const popupPicture = document.querySelector('.popup_task_picture');
-    const popupPictureImage = popupPicture.querySelector('.popup__image');
-    const popupPictureTitle = popupPicture.querySelector('.popup__image-title');
     popupPictureImage.src = this._image;
     popupPictureTitle.textContent = this._title;
     popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;

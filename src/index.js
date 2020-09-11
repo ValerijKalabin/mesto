@@ -1,59 +1,22 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-
-const initialSelectors = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
-
-const initialPlaces = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-const cards = document.querySelector('.elements');
-
-const profile = document.querySelector('.profile');
-const buttonOpenPopupProfile = profile.querySelector('.profile__edit-button');
-const buttonOpenPopupPlace = profile.querySelector('.profile__add-button');
-const profileTitle = profile.querySelector('.profile__title');
-const profileDescription = profile.querySelector('.profile__description');
-
-const popupProfile = document.querySelector('.popup_task_profile');
-const popupProfileForm = document.forms.profile;
-const popupProfileFormName = popupProfileForm.elements.username;
-const popupProfileFormDescription = popupProfileForm.elements.description;
-
-const popupPlace = document.querySelector('.popup_task_place');
-const popupPlaceForm = document.forms.place;
-const popupPlaceFormName = popupPlaceForm.elements.placename;
-const popupPlaceFormLink = popupPlaceForm.elements.link;
+import {
+  initialSelectors,
+  initialPlaces,
+  cards,
+  buttonOpenPopupProfile,
+  buttonOpenPopupPlace,
+  profileTitle,
+  profileDescription,
+  popupProfile,
+  popupProfileForm,
+  popupProfileFormName,
+  popupProfileFormDescription,
+  popupPlace,
+  popupPlaceForm,
+  popupPlaceFormName,
+  popupPlaceFormLink
+} from './constants.js';
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
