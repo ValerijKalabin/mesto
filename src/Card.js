@@ -1,19 +1,14 @@
 export default class Card
 {
   constructor(templateID, openPopup, place) {
-    this._template = templateID;
+    this._template = document.querySelector(templateID).content.children[0];
     this._openPopup = openPopup;
     this._title = place.name;
     this._image = place.link;
   }
 
   _getCloneTemplate() {
-  	const cloneTemplate = document
-      .querySelector(this._template)
-      .content
-      .querySelector('.element')
-      .cloneNode(true);
-
+  	const cloneTemplate = this._template.cloneNode(true);
     return cloneTemplate;
   }
 
