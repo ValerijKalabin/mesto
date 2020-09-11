@@ -74,42 +74,7 @@ const clickClosePopup = function(evt) {
 const openPopup = function(popupElement) {
   document.addEventListener('keyup', escapeClosePopup);
   document.addEventListener('click', clickClosePopup);
-  const popupForm = popupElement.querySelector('.popup__form');
-  if(popupForm) {
-    initialFormState(popupForm);
-  }
   popupElement.classList.add('popup_opened');
-}
-
-function initialFormState(popupForm) {
-  const inputList = Array.from(popupForm.querySelectorAll('.popup__input'));
-  const buttonElement = popupForm.querySelector('.popup__button');
-  inputList.forEach(inputElement => {
-    initialInputState(inputElement);
-  });
-  if(popupForm.name === 'profile') {
-    activeButtonState(buttonElement);
-  } else if(popupForm.name === 'place') {
-    inactiveButtonState(buttonElement)
-  }
-  popupForm.reset();
-}
-
-function initialInputState(inputElement) {
-  inputElement.className = 'popup__input';
-  const errorElement = inputElement.nextElementSibling;
-  errorElement.className = 'popup__error';
-  errorElement.textContent = '';
-}
-
-function activeButtonState(buttonElement) {
-  buttonElement.classList.remove(initialSelectors.inactiveButtonClass);
-  buttonElement.removeAttribute('disabled');
-}
-
-function inactiveButtonState(buttonElement) {
-  buttonElement.classList.add(initialSelectors.inactiveButtonClass);
-  buttonElement.setAttribute('disabled', true);
 }
 
 function closePopup() {
@@ -125,9 +90,10 @@ function addCard(place) {
 }
 
 buttonOpenPopupProfile.addEventListener('click', () => {
-  openPopup(popupProfile);
+  profileFormValidator.resetForm();
   popupProfileFormName.value = profileTitle.textContent;
   popupProfileFormDescription.value = profileDescription.textContent;
+  openPopup(popupProfile);
 });
 popupProfileForm.addEventListener('submit', (evt) => {
   profileTitle.textContent = popupProfileFormName.value;
@@ -136,6 +102,7 @@ popupProfileForm.addEventListener('submit', (evt) => {
 });
 
 buttonOpenPopupPlace.addEventListener('click', () => {
+  placeFormValidator.resetForm();
   openPopup(popupPlace);
 });
 popupPlaceForm.addEventListener('submit', (evt) => {

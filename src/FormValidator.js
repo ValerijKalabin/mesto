@@ -7,6 +7,8 @@ export default class FormValidator
     this._inputErrorClass = selectors.inputErrorClass;
     this._errorClass = selectors.errorClass;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   enableValidation() {
@@ -16,29 +18,26 @@ export default class FormValidator
     this._setEventListeners();
   }
 
+  resetForm() {
+    this._inputList.forEach((inputElement) => {
+      const errorElement = inputElement.nextElementSibling;
+      this._hideInputError(inputElement, errorElement);
+    });
+    if(this._formElement.name === 'profile') {
+      this._activeButtonState();
+    } else if(this._formElement.name === 'place') {
+      this._inactiveButtonState();
+    }
+    this._formElement.reset();
+  }
+
   _setEventListeners() {
-    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState();
       });
     });
-  }
-
-  _toggleButtonState() {
-    if(this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.setAttribute('disabled', true);
-    } else {
-      this._buttonElement.classList.remove(this._inactiveButtonClass);
-      this._buttonElement.removeAttribute('disabled');
-    }
-  }
-
-  _hasInvalidInput () {
-    return this._inputList.some(inputElement => !inputElement.validity.valid);
   }
 
   _checkInputValidity(inputElement) {
@@ -60,5 +59,27 @@ export default class FormValidator
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
     errorElement.textContent = '';
+  }
+
+  _toggleButtonState() {
+    if(this._hasInvalidInput()) {
+      this._inactiveButtonState();
+    } else {
+      this._activeButtonState();
+    }
+  }
+
+  _hasInvalidInput () {
+    return this._inputList.some(inputElement => !inputElement.validity.valid);
+  }
+
+  _activeButtonState() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.removeAttribute('disabled');
+  }
+
+  _inactiveButtonState() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', true);
   }
 }
