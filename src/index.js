@@ -53,7 +53,7 @@ function addCard(place) {
 }
 
 buttonOpenPopupProfile.addEventListener('click', () => {
-  profileFormValidator.resetForm();
+  profileFormValidator.resetForm(true);
   popupProfileFormName.value = profileTitle.textContent;
   popupProfileFormDescription.value = profileDescription.textContent;
   openPopup(popupProfile);
@@ -65,7 +65,7 @@ popupProfileForm.addEventListener('submit', (evt) => {
 });
 
 buttonOpenPopupPlace.addEventListener('click', () => {
-  placeFormValidator.resetForm();
+  placeFormValidator.resetForm(false);
   openPopup(popupPlace);
 });
 popupPlaceForm.addEventListener('submit', (evt) => {

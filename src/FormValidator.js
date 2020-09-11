@@ -18,14 +18,14 @@ export default class FormValidator
     this._setEventListeners();
   }
 
-  resetForm() {
+  resetForm(isActiveButton) {
     this._inputList.forEach((inputElement) => {
       const errorElement = inputElement.nextElementSibling;
       this._hideInputError(inputElement, errorElement);
     });
-    if(this._formElement.name === 'profile') {
+    if(isActiveButton) {
       this._activeButtonState();
-    } else if(this._formElement.name === 'place') {
+    } else {
       this._inactiveButtonState();
     }
     this._formElement.reset();
