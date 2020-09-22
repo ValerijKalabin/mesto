@@ -14,6 +14,8 @@ import {
   popupProfileFormDescription,
   popupPlaceForm
 } from '../utils/constants.js';
+import './index.css';
+
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
