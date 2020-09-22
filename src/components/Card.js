@@ -1,6 +1,6 @@
 export default class Card
 {
-  constructor(templateID, place, { handlePictureShow }) {
+  constructor({ handlePictureShow }, place, templateID) {
     this._template = document.querySelector(templateID).content.children[0];
     this._handlePictureShow = handlePictureShow;
     this._title = place.name;

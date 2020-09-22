@@ -20,59 +20,65 @@ import './index.css';
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
 
+const addCard = (item) => {
+  const card = new Card(
+    {
+      handlePictureShow: (path, text) => {
+        popupPicture.open(path, text);
+      }
+    },
+    item,
+    '#template-element'
+  );
+  cardSection.addItem(card.generateCard());
+};
+
 const userProfile = new UserInfo({
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
 });
 
-const popupProfile = new PopupWithForm({
-  resetPopupForm: () => {
-    profileFormValidator.resetForm(true);
+const popupProfile = new PopupWithForm(
+  {
+    resetPopupForm: () => {
+      profileFormValidator.resetForm(true);
+    },
+    handleFormSubmit: ({ username, description }) => {
+      userProfile.setUserInfo(username, description);
+    }
   },
-  handleFormSubmit: ({username, description}) => {
-    userProfile.setUserInfo(username, description);
-  }
-}, '.popup_task_profile');
+  '.popup_task_profile'
+);
 
-const popupPlace = new PopupWithForm({
-  resetPopupForm: () => {
-    placeFormValidator.resetForm(false);
+const popupPlace = new PopupWithForm(
+  {
+    resetPopupForm: () => {
+      placeFormValidator.resetForm(false);
+    },
+    handleFormSubmit: (item) => {
+      addCard(item);
+    }
   },
-  handleFormSubmit: ({placename, link}) => {
-    const card = new Card(
-      '#template-element',
-      {
-        name: placename,
-        link: link
-      },
-      {
-        handlePictureShow: (path, text) => {
-          popupPicture.open(path, text);
-        }
-      });
-    cardSection.addItem(card.generateCard());
-  }
-}, '.popup_task_place');
+  '.popup_task_place'
+);
 
-const popupPicture = new PopupWithImage({
+const popupPicture = new PopupWithImage(
+  {
     imageSelector: '.popup__image',
     titleSelector: '.popup__image-title'
-}, '.popup_task_picture');
+  },
+  '.popup_task_picture'
+);
 
-const cardSection = new Section({
-  items: initialPlaces,
-  renderer: (item) => {
-    const card = new Card(
-      '#template-element',
-      item,
-      {
-        handlePictureShow: (path, text) => {
-          popupPicture.open(path, text);
-        }
-      });
-    cardSection.addItem(card.generateCard());
-  }
-}, '.elements');
+const cardSection = new Section(
+  {
+    items: initialPlaces,
+    renderer: (item) => {
+      addCard(item);
+    }
+  },
+  '.elements'
+);
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();
