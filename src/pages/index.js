@@ -3,6 +3,7 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Section from '../components/Section.js';
+import UserInfo from '../components/UserInfo.js';
 import {
   initialSelectors,
   initialPlaces,
@@ -19,15 +20,32 @@ import {
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
 
+const userProfile = new UserInfo({
+  titleSelector: '.profile__title',
+  subtitleSelector: '.profile__description'
+});
+
 const popupProfile = new PopupWithForm({
   handleFormSubmit: ({username, description}) => {
-    return username + ' ' + description;
+    profileTitle.textContent = username;
+    profileDescription.textContent = description;
   }
 }, '.popup_task_profile');
 
 const popupPlace = new PopupWithForm({
   handleFormSubmit: ({placename, link}) => {
-    return placename + ' ' + link;
+    const card = new Card(
+      '#template-element',
+      {
+        name: placename,
+        link: link
+      },
+      {
+        handlePictureShow: (path, text) => {
+          popupPicture.open(path, text);
+        }
+      });
+    cardSection.addItem(card.generateCard());
   }
 }, '.popup_task_place');
 
@@ -51,21 +69,6 @@ const cardSection = new Section({
   }
 }, '.elements');
 
-/*popupProfileForm.addEventListener('submit', (evt) => {
-  profileTitle.textContent = popupProfileFormName.value;
-  profileDescription.textContent = popupProfileFormDescription.value;
-  closePopup();
-});
-
-popupPlaceForm.addEventListener('submit', (evt) => {
-  const newPlace = {
-    name: popupPlaceFormName.value,
-    link: popupPlaceFormLink.value
-  };
-  addCard(newPlace);
-  closePopup();
-});*/
-
 buttonOpenPopupProfile.addEventListener('click', () => {
   profileFormValidator.resetForm(true);
   popupProfileFormName.value = profileTitle.textContent;
@@ -80,5 +83,7 @@ buttonOpenPopupPlace.addEventListener('click', () => {
 
 profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
+popupProfile.setEventListeners();
+popupPlace.setEventListeners();
 
 cardSection.renderItems();
