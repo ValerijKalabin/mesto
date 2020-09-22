@@ -5,15 +5,15 @@ export default class Popup
   }
 
   open() {
-    document.addEventListener('keyup', this._handleEscClose);
-    document.addEventListener('click', this._handleClickClose);
+    document.addEventListener('keyup', this._handleEscClose.bind(this));
+    document.addEventListener('click', this._handleClickClose.bind(this));
     this._popup.classList.add('popup_opened');
   }
 
   close() {
     this._popup.classList.remove('popup_opened');
-    document.removeEventListener('click', this._handleEscClose);
-    document.removeEventListener('keyup', this._handleClickClose);
+    document.removeEventListener('click', this._handleEscClose.bind(this));
+    document.removeEventListener('keyup', this._handleClickClose.bind(this));
   }
 
   _handleEscClose(evt) {

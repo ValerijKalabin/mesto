@@ -1,17 +1,18 @@
-export default class PopupWithImage extends Popup
+import Popup from './Popup.js';
+export default class PopupWithForm extends Popup
 {
-  constructor(popupSelector, handleFormSubmit) {
+  constructor({handleFormSubmit}, popupSelector) {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
   }
 
-  open({ isActiveButton, resetForm }) {
-    resetForm(isActiveButton);
+  open(/*{ isActiveButton, resetForm }*/) {
+    //resetForm(isActiveButton);
     super.open();
   }
 
   setEventListeners() {
-    this._form = super._popup.querySelector('.popup__form');
+    this._form = this._popup.querySelector('.popup__form');
     this._form.addEventListener('submit', () => {
       this._handleFormSubmit(this._getInputValues());
     })
