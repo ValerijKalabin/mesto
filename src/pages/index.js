@@ -9,8 +9,6 @@ import {
   initialPlaces,
   buttonOpenPopupProfile,
   buttonOpenPopupPlace,
-  profileTitle,
-  profileDescription,
   popupProfileForm,
   popupProfileFormName,
   popupProfileFormDescription,
@@ -27,8 +25,7 @@ const userProfile = new UserInfo({
 
 const popupProfile = new PopupWithForm({
   handleFormSubmit: ({username, description}) => {
-    profileTitle.textContent = username;
-    profileDescription.textContent = description;
+    userProfile.setUserInfo(username, description);
   }
 }, '.popup_task_profile');
 
@@ -56,10 +53,10 @@ const popupPicture = new PopupWithImage({
 
 const cardSection = new Section({
   items: initialPlaces,
-  renderer: (place) => {
+  renderer: (item) => {
     const card = new Card(
       '#template-element',
-      place,
+      item,
       {
         handlePictureShow: (path, text) => {
           popupPicture.open(path, text);
@@ -71,8 +68,9 @@ const cardSection = new Section({
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   profileFormValidator.resetForm(true);
-  popupProfileFormName.value = profileTitle.textContent;
-  popupProfileFormDescription.value = profileDescription.textContent;
+  const userInfo = userProfile.getUserInfo()
+  popupProfileFormName.value = userInfo.titleText;
+  popupProfileFormDescription.value = userInfo.subtitleText;
   popupProfile.open();
 });
 
@@ -85,5 +83,4 @@ profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
 popupProfile.setEventListeners();
 popupPlace.setEventListeners();
-
 cardSection.renderItems();

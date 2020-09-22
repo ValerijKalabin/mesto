@@ -10,7 +10,7 @@ export default class Popup
     this._popup.classList.add('popup_opened');
   }
 
-  close() {
+  _close() {
     this._popup.classList.remove('popup_opened');
     document.removeEventListener('click', this._handleEscClose.bind(this));
     document.removeEventListener('keyup', this._handleClickClose.bind(this));
@@ -18,14 +18,14 @@ export default class Popup
 
   _handleEscClose(evt) {
     if(evt.key === 'Escape') {
-      this.close();
+      this._close();
     }
   }
 
   _handleClickClose(evt) {
     const clickElement = evt.target;
     if(clickElement.classList.contains('popup') || clickElement.classList.contains('popup__icon-close')) {
-      this.close();
+      this._close();
     }
   }
 }
