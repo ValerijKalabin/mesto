@@ -1,5 +1,6 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
 import {
   initialSelectors,
   initialPlaces,
@@ -20,6 +21,13 @@ import {
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
+const cardSecton = new Section({
+  items: initialPlaces,
+  renderer: (place) => {
+    const card = new Card('#template-element', openPopup, place);
+    cardSecton.addItem(card.generateCard());
+  }
+}, '.elements');
 
 const escapeClosePopup = function(evt) {
   if(evt.key === 'Escape') {
@@ -45,11 +53,6 @@ function closePopup() {
   popupElement.classList.remove('popup_opened');
   document.removeEventListener('click', clickClosePopup);
   document.removeEventListener('keyup', escapeClosePopup);
-}
-
-function addCard(place) {
-  const newCard = new Card('#template-element', openPopup, place);
-  cards.prepend(newCard.generateCard());
 }
 
 buttonOpenPopupProfile.addEventListener('click', () => {
@@ -80,6 +83,4 @@ popupPlaceForm.addEventListener('submit', (evt) => {
 profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
 
-initialPlaces.forEach((place) => {
-  addCard(place);
-});
+cardSecton.renderItems();
