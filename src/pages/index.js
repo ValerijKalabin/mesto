@@ -24,12 +24,18 @@ const userProfile = new UserInfo({
 });
 
 const popupProfile = new PopupWithForm({
+  resetPopupForm: () => {
+    profileFormValidator.resetForm(true);
+  },
   handleFormSubmit: ({username, description}) => {
     userProfile.setUserInfo(username, description);
   }
 }, '.popup_task_profile');
 
 const popupPlace = new PopupWithForm({
+  resetPopupForm: () => {
+    placeFormValidator.resetForm(false);
+  },
   handleFormSubmit: ({placename, link}) => {
     const card = new Card(
       '#template-element',
@@ -67,15 +73,13 @@ const cardSection = new Section({
 }, '.elements');
 
 buttonOpenPopupProfile.addEventListener('click', () => {
-  profileFormValidator.resetForm(true);
+  popupProfile.open();
   const userInfo = userProfile.getUserInfo()
   popupProfileFormName.value = userInfo.titleText;
   popupProfileFormDescription.value = userInfo.subtitleText;
-  popupProfile.open();
 });
 
 buttonOpenPopupPlace.addEventListener('click', () => {
-  placeFormValidator.resetForm(false);
   popupPlace.open();
 });
 
