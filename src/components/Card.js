@@ -1,14 +1,8 @@
-import {
-  popupPicture,
-  popupPictureImage,
-  popupPictureTitle
-} from './constants.js';
-
 export default class Card
 {
-  constructor(templateID, openPopup, place) {
+  constructor(templateID, place, { handlePictureShow }) {
     this._template = document.querySelector(templateID).content.children[0];
-    this._openPopup = openPopup;
+    this._handlePictureShow = handlePictureShow;
     this._title = place.name;
     this._image = place.link;
   }
@@ -41,7 +35,7 @@ export default class Card
       this._handleCardDelete();
     });
     this._cardSubstrate.addEventListener('click', () => {
-      this._handlePictureShow();
+      this._handlePictureShow(this._image, this._title);
     });
   }
 
@@ -51,12 +45,5 @@ export default class Card
 
   _handleCardDelete() {
     this._card.remove();
-  }
-
-  _handlePictureShow() {
-    popupPictureImage.src = this._image;
-    popupPictureTitle.textContent = this._title;
-    popupPictureTitle.style.maxWidth = `${popupPictureImage.clientWidth}px`;
-    this._openPopup(popupPicture);
   }
 }
