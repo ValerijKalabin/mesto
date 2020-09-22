@@ -25,7 +25,7 @@ export default class Popup
   _handleClickClose(evt) {
     const clickElement = evt.target;
     if(clickElement.classList.contains('popup') || clickElement.classList.contains('popup__icon-close')) {
-      closePopup();
+      this.close();
     }
   }
 }
