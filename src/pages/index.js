@@ -20,19 +20,6 @@ import './index.css';
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
 
-const addCard = (item) => {
-  const card = new Card(
-    {
-      handlePictureShow: (path, text) => {
-        popupPicture.open(path, text);
-      }
-    },
-    item,
-    '#template-element'
-  );
-  cardSection.addItem(card.generateCard());
-};
-
 const userProfile = new UserInfo({
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
@@ -70,7 +57,20 @@ const popupPicture = new PopupWithImage(
   '.popup_task_picture'
 );
 
-const cardSection = new Section(
+const getCard = (item) => {
+  const card = new Card(
+    {
+      handlePictureShow: (path, text) => {
+        popupPicture.open(path, text);
+      }
+    },
+    item,
+    '#template-element'
+  );
+  return card.generateCard();
+};
+
+const cardsSection = new Section(
   {
     items: initialPlaces,
     renderer: (item) => {
@@ -79,6 +79,10 @@ const cardSection = new Section(
   },
   '.elements'
 );
+
+const addCard = (item) => {
+  cardsSection.addItem(getCard(item));
+};
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();
@@ -95,4 +99,4 @@ profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
 popupProfile.setEventListeners();
 popupPlace.setEventListeners();
-cardSection.renderItems();
+cardsSection.renderItems();
