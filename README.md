@@ -16,5 +16,3 @@
 **Картинки**
 
 [Оптимизировать картинки](https://tinypng.com/).
-
-Ссылка на сайт [https://valerijkalabin.github.io/mesto/]
