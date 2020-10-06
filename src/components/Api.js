@@ -6,32 +6,20 @@ export default class Api
     this._token = token;
   }
 
-  getInitialCards() {
-    return fetch(this._cardsUrl, {
-      headers: {
-        authorization: this._token
-      }
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(res);
-      })
-  }
-
   getUserProfile() {
     return fetch(this._userUrl, {
       headers: {
         authorization: this._token
       }
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(res);
-      })
+  }
+
+  getInitialCards() {
+    return fetch(this._cardsUrl, {
+      headers: {
+        authorization: this._token
+      }
+    })
   }
 
   saveUserInfo({ username, description }) {
@@ -46,6 +34,21 @@ export default class Api
         about: description
       })
     })
+  }
+
+  saveNewCard(dataCard) {
+    return fetch(this._cardsUrl, {
+      method: 'POST',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataCard)
+    })
+  }
+
+  getJson(promise) {
+    return promise
       .then((res) => {
         if (res.ok) {
           return res.json();

@@ -40,8 +40,8 @@ const popupProfile = new PopupWithForm(
     resetPopupForm: () => {
       profileFormValidator.resetForm(true);
     },
-    handleFormSubmit: (userData) => {
-      api.saveUserInfo(userData)
+    handleFormSubmit: (dataUser) => {
+      api.getJson(api.saveUserInfo(dataUser))
         .then((profile) => {
           userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
         })
@@ -58,8 +58,14 @@ const popupPlace = new PopupWithForm(
     resetPopupForm: () => {
       placeFormValidator.resetForm(false);
     },
-    handleFormSubmit: (item) => {
-      cardsSection.addItem(getCard(item));
+    handleFormSubmit: (dataCard) => {
+      api.getJson(api.saveNewCard(dataCard))
+        .then((place) => {
+          cardsSection.addItem(getCard(place));
+        })
+        .catch ((err) => {
+          alert(`Ошибка записи данных нового места ${err.status}`)
+        });
     }
   },
   '.popup_task_place'
@@ -95,7 +101,7 @@ const cardsSection = new Section(
   '.elements'
 );
 
-api.getUserProfile()
+api.getJson(api.getUserProfile())
   .then((profile) => {
     userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
   })
@@ -103,7 +109,7 @@ api.getUserProfile()
     userProfile.setUserInfo(errAvatar, err.status, err.statusText);
   });
 
-api.getInitialCards()
+api.getJson(api.getInitialCards())
   .then((places) => {
     cardsSection.renderItems(places);
   })
