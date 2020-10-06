@@ -43,7 +43,7 @@ const popupPlace = new PopupWithForm(
       placeFormValidator.resetForm(false);
     },
     handleFormSubmit: (item) => {
-      addCard(item);
+      cardsSection.addItem(getCard(item));
     }
   },
   '.popup_task_place'
@@ -74,15 +74,11 @@ const cardsSection = new Section(
   {
     items: initialPlaces,
     renderer: (item) => {
-      addCard(item);
+      cardsSection.addItem(getCard(item));
     }
   },
   '.elements'
 );
-
-const addCard = (item) => {
-  cardsSection.addItem(getCard(item));
-};
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();
