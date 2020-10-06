@@ -49,6 +49,15 @@ export default class Api
     })
   }
 
+  deleteCard(cardID) {
+    return fetch(`${this._cardsUrl}/${cardID}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+  }
+
   getJson(promise) {
     return promise
       .then((res) => {

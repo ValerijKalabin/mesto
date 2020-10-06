@@ -82,7 +82,15 @@ const popupPicture = new PopupWithImage(
 
 const popupConfirm = new PopupWithConfirmation(
   {
-    handleButtonConfirm: () => {}
+    handleButtonConfirm: (cardID, card) => {
+      api.getJson(api.deleteCard(cardID))
+        .then(() => {
+          card.remove();
+        })
+        .catch((err) => {
+          alert(`Ошибка при удалении карточки на сервере: ${err.status}`)
+        });
+    }
   },
   '.popup_task_confirm'
 )
@@ -93,8 +101,8 @@ const getCard = (item) => {
       handlePictureShow: (path, text) => {
         popupPicture.open(path, text);
       },
-      handleCardDelete: () => {
-        popupConfirm.open();
+      handleCardDelete: (cardID, card) => {
+        popupConfirm.open(cardID, card);
       }
     },
     item,
@@ -147,3 +155,4 @@ profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
 popupProfile.setEventListeners();
 popupPlace.setEventListeners();
+popupConfirm.setEventListeners();

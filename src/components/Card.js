@@ -6,8 +6,9 @@ export default class Card
     this._handleCardDelete = handleCardDelete;
     this._title = place.name;
     this._image = place.link;
-    this._likesCount = place.likes.length;
-    this._cardUserID = place.owner._id;
+    this._likesCount = place.likes ? place.likes.length : 0;
+    this._cardID = place._id ? place._id : 0;
+    this._cardUserID = place.owner ? place.owner._id : 0;
     this._userID = userID;
   }
 
@@ -42,7 +43,7 @@ export default class Card
     });
     if(this._cardUserID === this._userID) {
       this._cardTrash.addEventListener('click', () => {
-        this._handleCardDelete();
+        this._handleCardDelete(this._cardID, this._card);
       });
     }
     this._cardSubstrate.addEventListener('click', () => {
@@ -53,8 +54,4 @@ export default class Card
   _handleLikeToggle() {
     this._cardLike.classList.toggle('element__like_active');
   }
-
-  /*_handleCardDelete() {
-    this._card.remove();
-  }*/
 }
