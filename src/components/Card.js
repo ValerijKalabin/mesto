@@ -5,6 +5,7 @@ export default class Card
     this._handlePictureShow = handlePictureShow;
     this._title = place.name;
     this._image = place.link;
+    this._likesCount = place.likes.length;
   }
 
   _getCloneTemplate() {
@@ -16,9 +17,11 @@ export default class Card
     this._card = this._getCloneTemplate();
     this._cardImage = this._card.querySelector('.element__image');
     this._cardTitle = this._card.querySelector('.element__title');
+    this._cardLikesCount = this._card.querySelector('.element__like-count');
     this._cardImage.src = this._image;
     this._cardImage.alt = this._title;
     this._cardTitle.textContent = this._title;
+    this._cardLikesCount.textContent = this._likesCount;
     this._setEventListeners();
   	return this._card;
   }

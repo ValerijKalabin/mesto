@@ -8,6 +8,7 @@ export default class Api
 
   getUserProfile() {
     return fetch(this._userUrl, {
+      method: 'GET',
       headers: {
         authorization: this._token
       }
@@ -16,6 +17,7 @@ export default class Api
 
   getInitialCards() {
     return fetch(this._cardsUrl, {
+      method: 'GET',
       headers: {
         authorization: this._token
       }
