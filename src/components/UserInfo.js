@@ -12,17 +12,19 @@ export default class UserInfo
     const userInfo = {
       avatarPath: this._avatar.src,
       titleText: this._title.textContent,
-      subtitleText: this._subtitle.textContent
+      subtitleText: this._subtitle.textContent,
+      userID: this._userID
     };
     return userInfo;
   }
 
-  setUserInfo(avatarUrl, titleText, subtitleText) {
+  setUserInfo(avatarUrl, titleText, subtitleText, userID = '') {
     this._loadImage(avatarUrl)
       .then(() => {
         this._profile.prepend(this._avatar);
         this._title.textContent = titleText;
         this._subtitle.textContent = subtitleText;
+        this._userID = userID;
       })
       .catch(() => {
         this._title.textContent = 'Ошибка';

@@ -3,6 +3,7 @@ import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import {
@@ -79,15 +80,26 @@ const popupPicture = new PopupWithImage(
   '.popup_task_picture'
 );
 
+const popupConfirm = new PopupWithConfirmation(
+  {
+    handleButtonConfirm: () => {}
+  },
+  '.popup_task_confirm'
+)
+
 const getCard = (item) => {
   const card = new Card(
     {
       handlePictureShow: (path, text) => {
         popupPicture.open(path, text);
+      },
+      handleCardDelete: () => {
+        popupConfirm.open();
       }
     },
     item,
-    '#template-element'
+    '#template-element',
+    userProfile.getUserInfo().userID
   );
   return card.generateCard();
 };
@@ -103,7 +115,7 @@ const cardsSection = new Section(
 
 api.getJson(api.getUserProfile())
   .then((profile) => {
-    userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
+    userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
   })
   .catch((err) => {
     userProfile.setUserInfo(errAvatar, err.status, err.statusText);
