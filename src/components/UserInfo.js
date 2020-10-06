@@ -17,8 +17,8 @@ export default class UserInfo
     return userInfo;
   }
 
-  setUserInfo(avatarPath, titleText, subtitleText) {
-    this._loadImage(avatarPath)
+  setUserInfo(avatarUrl, titleText, subtitleText) {
+    this._loadImage(avatarUrl)
       .then(() => {
         this._profile.prepend(this._avatar);
         this._title.textContent = titleText;

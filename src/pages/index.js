@@ -1,3 +1,4 @@
+import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -21,6 +22,12 @@ import errCard from '../images/card-error.jpg';
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
 
+const api = new Api({
+  cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-16/cards',
+  userUrl: 'https://mesto.nomoreparties.co/v1/cohort-16/users/me',
+  token: 'e006125d-46b3-4ae0-a3f9-77cc8ac310a7'
+});
+
 const userProfile = new UserInfo({
   profileSelector: '.profile',
   avatarClass: 'profile__avatar',
@@ -33,8 +40,14 @@ const popupProfile = new PopupWithForm(
     resetPopupForm: () => {
       profileFormValidator.resetForm(true);
     },
-    handleFormSubmit: ({ username, description }) => {
-      userProfile.setUserInfo(userProfile.getUserInfo().avatarPath, username, description);
+    handleFormSubmit: (userData) => {
+      api.saveUserInfo(userData)
+        .then((profile) => {
+          userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
+        })
+        .catch ((err) => {
+          alert(`Ошибка записи данных пользователя ${err.status}`)
+        });
     }
   },
   '.popup_task_profile'
@@ -82,17 +95,7 @@ const cardsSection = new Section(
   '.elements'
 );
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-16/users/me', {
-  headers: {
-    authorization: 'e006125d-46b3-4ae0-a3f9-77cc8ac310a7'
-  }
-})
-  .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
-  })
+api.getUserProfile()
   .then((profile) => {
     userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
   })
@@ -100,17 +103,7 @@ fetch('https://mesto.nomoreparties.co/v1/cohort-16/users/me', {
     userProfile.setUserInfo(errAvatar, err.status, err.statusText);
   });
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-16/cards', {
-  headers: {
-    authorization: 'e006125d-46b3-4ae0-a3f9-77cc8ac310a7'
-  }
-})
-  .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
-  })
+api.getInitialCards()
   .then((places) => {
     cardsSection.renderItems(places);
   })
