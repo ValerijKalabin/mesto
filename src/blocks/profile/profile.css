@@ -1,5 +1,6 @@
 .profile {
   padding: 40px 0 50px;
+  min-height: 120px;
   display: flex;
   flex-direction: row;
   align-items: center;

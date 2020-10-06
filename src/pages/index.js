@@ -15,12 +15,15 @@ import {
   popupPlaceForm
 } from '../utils/constants.js';
 import './index.css';
+import errAvatar from '../images/avatar-error.jpg';
 
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
 
 const userProfile = new UserInfo({
+  profileSelector: '.profile',
+  avatarClass: 'profile__avatar',
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
 });
@@ -31,7 +34,7 @@ const popupProfile = new PopupWithForm(
       profileFormValidator.resetForm(true);
     },
     handleFormSubmit: ({ username, description }) => {
-      userProfile.setUserInfo(username, description);
+      userProfile.setUserInfo(userProfile.getUserInfo().avatarPath, username, description);
     }
   },
   '.popup_task_profile'
@@ -79,6 +82,24 @@ const cardsSection = new Section(
   },
   '.elements'
 );
+
+fetch('https://mesto.nomoreparties.co/v1/cohort-16/users/me', {
+  headers: {
+    authorization: 'e006125d-46b3-4ae0-a3f9-77cc8ac310a7'
+  }
+})
+  .then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res);
+  })
+  .then((profile) => {
+    userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
+  })
+  .catch((err) => {
+    userProfile.setUserInfo(errAvatar, err.status, err.statusText);
+  });
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();
