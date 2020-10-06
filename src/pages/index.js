@@ -6,7 +6,6 @@ import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import {
   initialSelectors,
-  initialPlaces,
   buttonOpenPopupProfile,
   buttonOpenPopupPlace,
   popupProfileForm,
@@ -16,6 +15,7 @@ import {
 } from '../utils/constants.js';
 import './index.css';
 import errAvatar from '../images/avatar-error.jpg';
+import errCard from '../images/card-error.jpg';
 
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
@@ -75,7 +75,6 @@ const getCard = (item) => {
 
 const cardsSection = new Section(
   {
-    items: initialPlaces,
     renderer: (item) => {
       cardsSection.addItem(getCard(item));
     }
@@ -101,9 +100,30 @@ fetch('https://mesto.nomoreparties.co/v1/cohort-16/users/me', {
     userProfile.setUserInfo(errAvatar, err.status, err.statusText);
   });
 
+fetch('https://mesto.nomoreparties.co/v1/cohort-16/cards', {
+  headers: {
+    authorization: 'e006125d-46b3-4ae0-a3f9-77cc8ac310a7'
+  }
+})
+  .then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res);
+  })
+  .then((places) => {
+    cardsSection.renderItems(places);
+  })
+  .catch((err) => {
+    cardsSection.renderItems([{
+      link: errCard,
+      name: err.status
+    }]);
+  });
+
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();
-  const userInfo = userProfile.getUserInfo()
+  const userInfo = userProfile.getUserInfo();
   popupProfileFormName.value = userInfo.titleText;
   popupProfileFormDescription.value = userInfo.subtitleText;
 });
@@ -116,4 +136,3 @@ profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
 popupProfile.setEventListeners();
 popupPlace.setEventListeners();
-cardsSection.renderItems();
