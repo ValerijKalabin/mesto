@@ -30,7 +30,7 @@ const api = new Api({
 });
 
 const userProfile = new UserInfo({
-  profileSelector: '.profile',
+  avatarContainerSelector: '.profile__avatar-container',
   avatarClass: 'profile__avatar',
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
