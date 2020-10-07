@@ -42,7 +42,7 @@ const popupProfile = new PopupWithForm(
       profileFormValidator.resetForm(true);
     },
     handleFormSubmit: (dataUser) => {
-      api.getJson(api.saveUserInfo(dataUser))
+      api.getResponse(api.saveUserInfo(dataUser))
         .then((profile) => {
           userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
         })
@@ -60,7 +60,7 @@ const popupPlace = new PopupWithForm(
       placeFormValidator.resetForm(false);
     },
     handleFormSubmit: (dataCard) => {
-      api.getJson(api.saveNewCard(dataCard))
+      api.getResponse(api.saveNewCard(dataCard))
         .then((place) => {
           cardsSection.addItem(getCard(place));
         })
@@ -83,7 +83,7 @@ const popupPicture = new PopupWithImage(
 const popupConfirm = new PopupWithConfirmation(
   {
     handleButtonConfirm: (cardID, card) => {
-      api.getJson(api.deleteCard(cardID))
+      api.getResponse(api.deleteCard(cardID))
         .then(() => {
           card.remove();
         })
@@ -103,6 +103,12 @@ const getCard = (item) => {
       },
       handleCardDelete: (cardID, card) => {
         popupConfirm.open(cardID, card);
+      },
+      handleLikePut: (cardID) => {
+        api.putLike(cardID);
+      },
+      handleLikeDelete: (cardID) => {
+        api.deleteLike(cardID);
       }
     },
     item,
@@ -121,24 +127,25 @@ const cardsSection = new Section(
   '.elements'
 );
 
-api.getJson(api.getUserProfile())
+api.getResponse(api.getUserProfile())
   .then((profile) => {
     userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
+    api.getResponse(api.getInitialCards())
+      .then((places) => {
+        cardsSection.renderItems(places);
+      })
+      .catch((err) => {
+        cardsSection.renderItems([{
+          link: errCard,
+          name: err.status
+        }]);
+      });
   })
   .catch((err) => {
     userProfile.setUserInfo(errAvatar, err.status, err.statusText);
   });
 
-api.getJson(api.getInitialCards())
-  .then((places) => {
-    cardsSection.renderItems(places);
-  })
-  .catch((err) => {
-    cardsSection.renderItems([{
-      link: errCard,
-      name: err.status
-    }]);
-  });
+
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();

@@ -58,7 +58,25 @@ export default class Api
     })
   }
 
-  getJson(promise) {
+  putLike(cardID) {
+    return fetch(`${this._cardsUrl}/likes/${cardID}`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token
+      }
+    })
+  }
+
+  deleteLike(cardID) {
+    return fetch(`${this._cardsUrl}/likes/${cardID}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+  }
+
+  getResponse(promise) {
     return promise
       .then((res) => {
         if (res.ok) {
