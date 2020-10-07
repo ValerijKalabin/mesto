@@ -33,8 +33,9 @@ const api = new Api({
 });
 
 const userProfile = new UserInfo({
-  avatarBtnSelector: '.profile__avatar-button',
   avatarClass: 'profile__avatar',
+  avatarAlt: 'Аватар',
+  buttonSelector: '.profile__avatar-button',
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
 });
@@ -47,7 +48,8 @@ const popupProfile = new PopupWithForm(
     handleFormSubmit: (dataUser) => {
       api.getResponse(api.saveUserInfo(dataUser))
         .then((profile) => {
-          userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
+          userProfile.saveUserInfo(profile);
+          userProfile.setUserInfo();
         })
         .catch ((err) => {
           alert(`Ошибка записи данных пользователя ${err.status}`);
@@ -68,7 +70,8 @@ const popupAvatar = new PopupWithForm(
     handleFormSubmit: (dataAvatar) => {
       api.getResponse(api.saveUserAvatar(dataAvatar))
         .then((profile) => {
-          userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
+          userProfile.saveUserInfo(profile);
+          userProfile.rendererAvatar();
         })
         .catch ((err) => {
           alert(`Ошибка записи аватара пользователя ${err.status}`)
@@ -162,7 +165,9 @@ const cardsSection = new Section(
 
 api.getResponse(api.getUserProfile())
   .then((profile) => {
-    userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
+    userProfile.saveUserInfo(profile);
+    userProfile.rendererAvatar();
+    userProfile.setUserInfo();
     api.getResponse(api.getInitialCards())
       .then((places) => {
         cardsSection.renderItems(places);
@@ -175,9 +180,15 @@ api.getResponse(api.getUserProfile())
       });
   })
   .catch((err) => {
-    userProfile.setUserInfo(errAvatar, err.status, err.statusText);
+    userProfile.saveUserInfo({
+      avatar: errAvatar,
+      name: err.status,
+      about: err.statusText,
+      _id: ''
+    });
+    userProfile.rendererAvatar();
+    userProfile.setUserInfo();
   });
-
 
 
 buttonOpenPopupProfile.addEventListener('click', () => {
