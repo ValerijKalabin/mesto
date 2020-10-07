@@ -1,10 +1,9 @@
 export default class UserInfo
 {
-  constructor({ avatarClass, avatarAlt, buttonSelector, titleSelector, subtitleSelector }) {
+  constructor({ avatarClass, avatarAlt, titleSelector, subtitleSelector }) {
     this._avatar = document.createElement('img');
     this._avatar.className = avatarClass;
     this._avatar.alt = avatarAlt;
-    this._button = document.querySelector(buttonSelector);
     this._title = document.querySelector(titleSelector);
     this._subtitle = document.querySelector(subtitleSelector);
   }
@@ -18,19 +17,9 @@ export default class UserInfo
     };
   }
 
-  rendererAvatar() {
-    new Promise((resolve, reject) => {
-      this._avatar.src = this._avatarUrl;
-      this._avatar.onload = resolve;
-      this._avatar.onerror = reject;
-    })
-      .then(() => {
-        this._button.prepend(this._avatar);
-      })
-      .catch(() => {
-        this._title.textContent = 'Ошибка';
-        this._subtitle.textContent = 'Не удалось загрузить аватар пользователя';
-      });
+  getAvatar() {
+    this._avatar.src = this._avatarUrl;
+    return this._avatar;
   }
 
   saveUserInfo({ avatar, name, about, _id }) {

@@ -35,7 +35,6 @@ const api = new Api({
 const userProfile = new UserInfo({
   avatarClass: 'profile__avatar',
   avatarAlt: 'Аватар',
-  buttonSelector: '.profile__avatar-button',
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
 });
@@ -71,7 +70,7 @@ const popupAvatar = new PopupWithForm(
       api.getResponse(api.saveUserAvatar(dataAvatar))
         .then((profile) => {
           userProfile.saveUserInfo(profile);
-          userProfile.rendererAvatar();
+          avatarButton.addItem(userProfile.getAvatar());
         })
         .catch ((err) => {
           alert(`Ошибка записи аватара пользователя ${err.status}`)
@@ -154,6 +153,7 @@ const getCard = (item) => {
   return card.generateCard();
 };
 
+const avatarButton = new Section({}, '.profile__avatar-button');
 const cardsSection = new Section(
   {
     renderer: (item) => {
@@ -162,34 +162,6 @@ const cardsSection = new Section(
   },
   '.elements'
 );
-
-api.getResponse(api.getUserProfile())
-  .then((profile) => {
-    userProfile.saveUserInfo(profile);
-    userProfile.rendererAvatar();
-    userProfile.setUserInfo();
-    api.getResponse(api.getInitialCards())
-      .then((places) => {
-        cardsSection.renderItems(places);
-      })
-      .catch((err) => {
-        cardsSection.renderItems([{
-          link: errCard,
-          name: err.status
-        }]);
-      });
-  })
-  .catch((err) => {
-    userProfile.saveUserInfo({
-      avatar: errAvatar,
-      name: err.status,
-      about: err.statusText,
-      _id: ''
-    });
-    userProfile.rendererAvatar();
-    userProfile.setUserInfo();
-  });
-
 
 buttonOpenPopupProfile.addEventListener('click', () => {
   popupProfile.open();
@@ -213,3 +185,30 @@ popupProfile.setEventListeners();
 popupPlace.setEventListeners();
 popupConfirm.setEventListeners();
 popupAvatar.setEventListeners();
+
+api.getResponse(api.getUserProfile())
+  .then((profile) => {
+    userProfile.saveUserInfo(profile);
+    avatarButton.addItem(userProfile.getAvatar());
+    userProfile.setUserInfo();
+    api.getResponse(api.getInitialCards())
+      .then((places) => {
+        cardsSection.renderItems(places);
+      })
+      .catch((err) => {
+        cardsSection.renderItems([{
+          link: errCard,
+          name: err.status
+        }]);
+      });
+  })
+  .catch((err) => {
+    userProfile.saveUserInfo({
+      avatar: errAvatar,
+      name: err.status,
+      about: err.statusText,
+      _id: ''
+    });
+    avatarButton.addItem(userProfile.getAvatar());
+    userProfile.setUserInfo();
+  });
