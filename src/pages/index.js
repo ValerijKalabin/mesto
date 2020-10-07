@@ -10,10 +10,12 @@ import {
   initialSelectors,
   buttonOpenPopupProfile,
   buttonOpenPopupPlace,
+  buttonOpenPopupAvatar,
   popupProfileForm,
   popupProfileFormName,
   popupProfileFormDescription,
-  popupPlaceForm
+  popupPlaceForm,
+  popupAvatarForm
 } from '../utils/constants.js';
 import './index.css';
 import errAvatar from '../images/avatar-error.jpg';
@@ -22,6 +24,7 @@ import errCard from '../images/card-error.jpg';
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
 const placeFormValidator = new FormValidator(initialSelectors, popupPlaceForm);
+const avatarFormValidator = new FormValidator(initialSelectors, popupAvatarForm);
 
 const api = new Api({
   cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-16/cards',
@@ -30,7 +33,7 @@ const api = new Api({
 });
 
 const userProfile = new UserInfo({
-  avatarContainerSelector: '.profile__avatar-container',
+  avatarBtnSelector: '.profile__avatar-button',
   avatarClass: 'profile__avatar',
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
@@ -44,7 +47,7 @@ const popupProfile = new PopupWithForm(
     handleFormSubmit: (dataUser) => {
       api.getResponse(api.saveUserInfo(dataUser))
         .then((profile) => {
-          userProfile.setUserInfo(profile.avatar, profile.name, profile.about);
+          userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
         })
         .catch ((err) => {
           alert(`Ошибка записи данных пользователя ${err.status}`)
@@ -52,6 +55,24 @@ const popupProfile = new PopupWithForm(
     }
   },
   '.popup_task_profile'
+);
+
+const popupAvatar = new PopupWithForm(
+  {
+    resetPopupForm: () => {
+      avatarFormValidator.resetForm(false);
+    },
+    handleFormSubmit: (dataAvatar) => {
+      api.getResponse(api.saveUserAvatar(dataAvatar))
+        .then((profile) => {
+          userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
+        })
+        .catch ((err) => {
+          alert(`Ошибка записи данных пользователя ${err.status}`)
+        });
+    }
+  },
+  '.popup_task_avatar'
 );
 
 const popupPlace = new PopupWithForm(
@@ -158,8 +179,14 @@ buttonOpenPopupPlace.addEventListener('click', () => {
   popupPlace.open();
 });
 
+buttonOpenPopupAvatar.addEventListener('click', () => {
+  popupAvatar.open();
+})
+
 profileFormValidator.enableValidation();
 placeFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
 popupProfile.setEventListeners();
 popupPlace.setEventListeners();
 popupConfirm.setEventListeners();
+popupAvatar.setEventListeners();

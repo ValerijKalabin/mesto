@@ -38,6 +38,17 @@ export default class Api
     })
   }
 
+  saveUserAvatar(dataAvatar) {
+    return fetch(`${this._userUrl}/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataAvatar)
+    })
+  }
+
   saveNewCard(dataCard) {
     return fetch(this._cardsUrl, {
       method: 'POST',

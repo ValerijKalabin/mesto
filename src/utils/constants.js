@@ -10,9 +10,11 @@ export const initialSelectors = {
 export const profile = document.querySelector('.profile');
 export const buttonOpenPopupProfile = profile.querySelector('.profile__edit-button');
 export const buttonOpenPopupPlace = profile.querySelector('.profile__add-button');
+export const buttonOpenPopupAvatar = profile.querySelector('.profile__avatar-button');
 
 export const popupProfileForm = document.forms.profile;
 export const popupProfileFormName = popupProfileForm.elements.username;
 export const popupProfileFormDescription = popupProfileForm.elements.description;
 
 export const popupPlaceForm = document.forms.place;
+export const popupAvatarForm = document.forms.avatarform;

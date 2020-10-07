@@ -1,7 +1,7 @@
 export default class UserInfo
 {
-  constructor({ avatarContainerSelector, avatarClass, titleSelector, subtitleSelector }) {
-    this._avatarContainer = document.querySelector(avatarContainerSelector);
+  constructor({ avatarBtnSelector, avatarClass, titleSelector, subtitleSelector }) {
+    this._avatarButton = document.querySelector(avatarBtnSelector);
     this._avatar = document.createElement('img');
     this._avatar.className = avatarClass;
     this._title = document.querySelector(titleSelector);
@@ -21,7 +21,7 @@ export default class UserInfo
   setUserInfo(avatarUrl, titleText, subtitleText, userID = '') {
     this._loadImage(avatarUrl)
       .then(() => {
-        this._avatarContainer.prepend(this._avatar);
+        this._avatarButton.prepend(this._avatar);
         this._title.textContent = titleText;
         this._subtitle.textContent = subtitleText;
         this._userID = userID;
