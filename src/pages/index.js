@@ -50,7 +50,10 @@ const popupProfile = new PopupWithForm(
           userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
         })
         .catch ((err) => {
-          alert(`Ошибка записи данных пользователя ${err.status}`)
+          alert(`Ошибка записи данных пользователя ${err.status}`);
+        })
+        .finally(() => {
+          popupProfile.close();
         });
     }
   },
@@ -68,7 +71,10 @@ const popupAvatar = new PopupWithForm(
           userProfile.setUserInfo(profile.avatar, profile.name, profile.about, profile._id);
         })
         .catch ((err) => {
-          alert(`Ошибка записи данных пользователя ${err.status}`)
+          alert(`Ошибка записи аватара пользователя ${err.status}`)
+        })
+        .finally(() => {
+          popupAvatar.close();
         });
     }
   },
@@ -87,6 +93,9 @@ const popupPlace = new PopupWithForm(
         })
         .catch ((err) => {
           alert(`Ошибка записи данных нового места ${err.status}`)
+        })
+        .finally(() => {
+          popupPlace.close();
         });
     }
   },
@@ -110,6 +119,9 @@ const popupConfirm = new PopupWithConfirmation(
         })
         .catch((err) => {
           alert(`Ошибка при удалении карточки на сервере: ${err.status}`)
+        })
+        .finally(() => {
+          popupConfirm.close();
         });
     }
   },
