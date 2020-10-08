@@ -10,20 +10,18 @@ export default class UserInfo
 
   getUserInfo() {
     return {
-      avatarUrl: this._avatarUrl,
       titleText: this._titleText,
       subtitleText: this._subtitleText,
       userID: this._userID
     };
   }
 
-  getAvatar() {
-    this._avatar.src = this._avatarUrl;
+  getAvatar(avatarUrl) {
+    this._avatar.src = avatarUrl;
     return this._avatar;
   }
 
-  saveUserInfo({ avatar, name, about, _id }) {
-    this._avatarUrl = avatar;
+  saveUserInfo({ name, about, _id }) {
     this._titleText = name;
     this._subtitleText = about;
     this._userID = _id;

@@ -70,7 +70,7 @@ const popupAvatar = new PopupWithForm(
       api.getResponse(api.saveUserAvatar(dataAvatar))
         .then((profile) => {
           userProfile.saveUserInfo(profile);
-          avatarButton.addItem(userProfile.getAvatar());
+          avatarSection.renderItems([profile.avatar]);
         })
         .catch ((err) => {
           alert(`Ошибка записи аватара пользователя ${err.status}`)
@@ -91,7 +91,7 @@ const popupPlace = new PopupWithForm(
     handleFormSubmit: (dataCard) => {
       api.getResponse(api.saveNewCard(dataCard))
         .then((place) => {
-          cardsSection.addItem(getCard(place));
+          cardsSection.renderItems([place]);
         })
         .catch ((err) => {
           alert(`Ошибка записи данных нового места ${err.status}`)
@@ -161,7 +161,15 @@ const getCard = (item) => {
   return card.generateCard();
 };
 
-const avatarButton = new Section({}, '.profile__avatar-button');
+const avatarSection = new Section(
+  {
+    renderer: (item) => {
+      avatarSection.addItem(userProfile.getAvatar(item));
+    }
+  },
+  '.profile__avatar-button'
+);
+
 const cardsSection = new Section(
   {
     renderer: (item) => {
@@ -197,7 +205,7 @@ popupAvatar.setEventListeners();
 api.getResponse(api.getUserProfile())
   .then((profile) => {
     userProfile.saveUserInfo(profile);
-    avatarButton.addItem(userProfile.getAvatar());
+    avatarSection.renderItems([profile.avatar]);
     userProfile.setUserInfo();
     api.getResponse(api.getInitialCards())
       .then((places) => {
@@ -212,11 +220,10 @@ api.getResponse(api.getUserProfile())
   })
   .catch((err) => {
     userProfile.saveUserInfo({
-      avatar: errAvatar,
       name: err.status,
       about: err.statusText,
       _id: ''
     });
-    avatarButton.addItem(userProfile.getAvatar());
+    avatarSection.renderItems([errAvatar]);
     userProfile.setUserInfo();
   });
