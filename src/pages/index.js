@@ -49,12 +49,10 @@ const popupProfile = new PopupWithForm(
         .then((profile) => {
           userProfile.saveUserInfo(profile);
           userProfile.setUserInfo();
+          popupProfile.close();
         })
         .catch ((err) => {
           alert(`Ошибка записи данных пользователя ${err.status}`);
-        })
-        .finally(() => {
-          popupProfile.close();
         });
     }
   },
@@ -71,12 +69,10 @@ const popupAvatar = new PopupWithForm(
         .then((profile) => {
           userProfile.saveUserInfo(profile);
           avatarSection.renderItems([profile.avatar]);
+          popupAvatar.close();
         })
         .catch ((err) => {
           alert(`Ошибка записи аватара пользователя ${err.status}`)
-        })
-        .finally(() => {
-          popupAvatar.close();
         });
     }
   },
@@ -92,12 +88,10 @@ const popupPlace = new PopupWithForm(
       api.saveNewCard(dataCard)
         .then((place) => {
           cardsSection.renderItems([place]);
+          popupPlace.close();
         })
         .catch ((err) => {
           alert(`Ошибка записи данных нового места ${err.status}`)
-        })
-        .finally(() => {
-          popupPlace.close();
         });
     }
   },
@@ -118,12 +112,10 @@ const popupConfirm = new PopupWithConfirmation(
      api.deleteCard(cardID)
         .then(() => {
           card.remove();
+          popupConfirm.close();
         })
         .catch((err) => {
           alert(`Ошибка при удалении карточки на сервере: ${err.status}`)
-        })
-        .finally(() => {
-          popupConfirm.close();
         });
     }
   },
