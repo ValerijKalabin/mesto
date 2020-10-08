@@ -140,10 +140,18 @@ const getCard = (item) => {
         popupConfirm.open(cardID, card);
       },
       handleLikePut: (cardID) => {
-        api.putLike(cardID);
+        api.getResponse(api.putLike(cardID))
+          .catch(() => {
+            card.handleLikeToggle();
+            card.reduceNumberLikes();
+          });
       },
       handleLikeDelete: (cardID) => {
-        api.deleteLike(cardID);
+        api.getResponse(api.deleteLike(cardID))
+          .catch(() => {
+            card.handleLikeToggle();
+            card.increaseNumberLikes();
+          });
       }
     },
     item,

@@ -25,7 +25,9 @@ export default class Card
     this._cardImage = this._card.querySelector('.element__image');
     this._cardTitle = this._card.querySelector('.element__title');
     this._cardTrash = this._card.querySelector('.element__trash');
+    this._cardLike = this._card.querySelector('.element__like');
     this._cardLikesCount = this._card.querySelector('.element__like-count');
+    this._cardSubstrate = this._card.querySelector('.element__substrate');
     if(this._cardUserID !== this._userID) {
       this._cardTrash.remove();
     }
@@ -35,27 +37,20 @@ export default class Card
     this._cardLikesCount.textContent = this._likesCount;
     this._setEventListeners();
     if(this._cardIsLiked()) {
-      this._handleLikeToggle()
+      this.handleLikeToggle()
     }
   	return this._card;
   }
 
   _setEventListeners() {
-    this._cardLike = this._card.querySelector('.element__like');
-    this._cardSubstrate = this._card.querySelector('.element__substrate');
-
     this._cardLike.addEventListener('click', () => {
-      this._handleLikeToggle();
+      this.handleLikeToggle();
       if(this._cardIsLiked()) {
         this._handleLikeDelete(this._cardID);
-        this._likesCount -= 1;
-        this._cardLikesCount.textContent = this._likesCount;
-        this._usersID = this._usersID.filter(id => id !== this._userID);
+        this.reduceNumberLikes();
       } else {
         this._handleLikePut(this._cardID);
-        this._likesCount += 1;
-        this._cardLikesCount.textContent = this._likesCount;
-        this._usersID.push(this._userID);
+        this.increaseNumberLikes();
       }
     });
 
@@ -70,8 +65,20 @@ export default class Card
     });
   }
 
-  _handleLikeToggle() {
+  handleLikeToggle() {
     this._cardLike.classList.toggle('element__like_active');
+  }
+
+  increaseNumberLikes() {
+    this._likesCount += 1;
+    this._cardLikesCount.textContent = this._likesCount;
+    this._usersID.push(this._userID);
+  }
+
+  reduceNumberLikes() {
+    this._likesCount -= 1;
+    this._cardLikesCount.textContent = this._likesCount;
+    this._usersID = this._usersID.filter(id => id !== this._userID);
   }
 
   _cardIsLiked() {
