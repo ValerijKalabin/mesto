@@ -13,6 +13,7 @@ export default class Api
         authorization: this._token
       }
     })
+      .then(this._getResponseData);
   }
 
   getInitialCards() {
@@ -22,6 +23,7 @@ export default class Api
         authorization: this._token
       }
     })
+      .then(this._getResponseData);
   }
 
   saveUserInfo({ username, description }) {
@@ -36,6 +38,7 @@ export default class Api
         about: description
       })
     })
+      .then(this._getResponseData);
   }
 
   saveUserAvatar(dataAvatar) {
@@ -47,6 +50,7 @@ export default class Api
       },
       body: JSON.stringify(dataAvatar)
     })
+      .then(this._getResponseData);
   }
 
   saveNewCard(dataCard) {
@@ -58,6 +62,7 @@ export default class Api
       },
       body: JSON.stringify(dataCard)
     })
+      .then(this._getResponseData);
   }
 
   deleteCard(cardID) {
@@ -67,6 +72,7 @@ export default class Api
         authorization: this._token
       }
     })
+      .then(this._getResponseData);
   }
 
   putLike(cardID) {
@@ -76,6 +82,7 @@ export default class Api
         authorization: this._token
       }
     })
+      .then(this._getResponseData);
   }
 
   deleteLike(cardID) {
@@ -85,15 +92,13 @@ export default class Api
         authorization: this._token
       }
     })
+      .then(this._getResponseData);
   }
 
-  getResponse(promise) {
-    return promise
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(res);
-      })
+  _getResponseData(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res);
   }
 }

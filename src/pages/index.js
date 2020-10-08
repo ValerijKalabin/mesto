@@ -45,7 +45,7 @@ const popupProfile = new PopupWithForm(
       profileFormValidator.resetForm(true);
     },
     handleFormSubmit: (dataUser) => {
-      api.getResponse(api.saveUserInfo(dataUser))
+      api.saveUserInfo(dataUser)
         .then((profile) => {
           userProfile.saveUserInfo(profile);
           userProfile.setUserInfo();
@@ -67,7 +67,7 @@ const popupAvatar = new PopupWithForm(
       avatarFormValidator.resetForm(false);
     },
     handleFormSubmit: (dataAvatar) => {
-      api.getResponse(api.saveUserAvatar(dataAvatar))
+      api.saveUserAvatar(dataAvatar)
         .then((profile) => {
           userProfile.saveUserInfo(profile);
           avatarSection.renderItems([profile.avatar]);
@@ -89,7 +89,7 @@ const popupPlace = new PopupWithForm(
       placeFormValidator.resetForm(false);
     },
     handleFormSubmit: (dataCard) => {
-      api.getResponse(api.saveNewCard(dataCard))
+      api.saveNewCard(dataCard)
         .then((place) => {
           cardsSection.renderItems([place]);
         })
@@ -115,7 +115,7 @@ const popupPicture = new PopupWithImage(
 const popupConfirm = new PopupWithConfirmation(
   {
     handleButtonConfirm: (cardID, card) => {
-      api.getResponse(api.deleteCard(cardID))
+     api.deleteCard(cardID)
         .then(() => {
           card.remove();
         })
@@ -140,14 +140,14 @@ const getCard = (item) => {
         popupConfirm.open(cardID, card);
       },
       handleLikePut: (cardID) => {
-        api.getResponse(api.putLike(cardID))
+        api.putLike(cardID)
           .catch(() => {
             card.handleLikeToggle();
             card.reduceNumberLikes();
           });
       },
       handleLikeDelete: (cardID) => {
-        api.getResponse(api.deleteLike(cardID))
+        api.deleteLike(cardID)
           .catch(() => {
             card.handleLikeToggle();
             card.increaseNumberLikes();
@@ -202,12 +202,12 @@ popupPlace.setEventListeners();
 popupConfirm.setEventListeners();
 popupAvatar.setEventListeners();
 
-api.getResponse(api.getUserProfile())
+api.getUserProfile()
   .then((profile) => {
     userProfile.saveUserInfo(profile);
     avatarSection.renderItems([profile.avatar]);
     userProfile.setUserInfo();
-    api.getResponse(api.getInitialCards())
+    api.getInitialCards()
       .then((places) => {
         cardsSection.renderItems(places);
       })
@@ -220,8 +220,8 @@ api.getResponse(api.getUserProfile())
   })
   .catch((err) => {
     userProfile.saveUserInfo({
-      name: err.status,
-      about: err.statusText,
+      name: err.status ? err.status : 'Error',
+      about: err.statusText ? err.statusText : 'There is no Internet connection',
       _id: ''
     });
     avatarSection.renderItems([errAvatar]);
