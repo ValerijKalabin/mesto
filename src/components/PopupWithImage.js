@@ -9,6 +9,7 @@ export default class PopupWithImage extends Popup
 
   open(path, text) {
     this._popupImage.src = path;
+    this._popupImage.alt = text;
     this._popupTitle.textContent = text;
     this._popupTitle.style.maxWidth = `${this._popupImage.clientWidth}px`;
     super.open();
