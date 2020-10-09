@@ -37,20 +37,17 @@ export default class Card
     this._cardLikesCount.textContent = this._likesCount;
     this._setEventListeners();
     if(this._cardIsLiked()) {
-      this.handleLikeToggle()
+      this.handleLikeToggle();
     }
   	return this._card;
   }
 
   _setEventListeners() {
     this._cardLike.addEventListener('click', () => {
-      this.handleLikeToggle();
       if(this._cardIsLiked()) {
         this._handleLikeDelete(this._cardID);
-        this.reduceNumberLikes();
       } else {
         this._handleLikePut(this._cardID);
-        this.increaseNumberLikes();
       }
     });
 
@@ -69,16 +66,9 @@ export default class Card
     this._cardLike.classList.toggle('element__like_active');
   }
 
-  increaseNumberLikes() {
-    this._likesCount += 1;
-    this._cardLikesCount.textContent = this._likesCount;
-    this._usersID.push(this._userID);
-  }
-
-  reduceNumberLikes() {
-    this._likesCount -= 1;
-    this._cardLikesCount.textContent = this._likesCount;
-    this._usersID = this._usersID.filter(id => id !== this._userID);
+  setLike(likes) {
+    this._cardLikesCount.textContent = likes.length;
+    this._usersID = likes.map(user => user._id);
   }
 
   _cardIsLiked() {

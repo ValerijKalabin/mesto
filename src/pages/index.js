@@ -135,16 +135,22 @@ const getCard = (item) => {
       },
       handleLikePut: (cardID) => {
         api.putLike(cardID)
-          .catch(() => {
+          .then((res) => {
             card.handleLikeToggle();
-            card.reduceNumberLikes();
+            card.setLike(res.likes);
+          })
+          .catch(() => {
+            alert('Не удалось поставить лайк. Попробуйте ещё раз.');
           });
       },
       handleLikeDelete: (cardID) => {
         api.deleteLike(cardID)
-          .catch(() => {
+          .then((res) => {
             card.handleLikeToggle();
-            card.increaseNumberLikes();
+            card.setLike(res.likes);
+          })
+          .catch(() => {
+            alert('Не удалось убрать лайк. Попробуйте ещё раз.');
           });
       }
     },
