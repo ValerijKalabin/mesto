@@ -19,7 +19,6 @@ import {
 } from '../utils/constants.js';
 import './index.css';
 import errAvatar from '../images/avatar-error.jpg';
-import errCard from '../images/card-error.jpg';
 
 
 const profileFormValidator = new FormValidator(initialSelectors, popupProfileForm);
@@ -193,21 +192,15 @@ popupPlace.setEventListeners();
 popupConfirm.setEventListeners();
 popupAvatar.setEventListeners();
 
-api.getUserProfile()
-  .then((profile) => {
+Promise.all([
+  api.getUserProfile(),
+  api.getInitialCards()
+])
+  .then(([profile, places]) => {
     userProfile.saveUserInfo(profile);
     userProfile.setAvatar();
     userProfile.setTitle();
-    api.getInitialCards()
-      .then((places) => {
-        cardsSection.renderItems(places);
-      })
-      .catch((err) => {
-        cardsSection.renderItems([{
-          link: errCard,
-          name: err.status
-        }]);
-      });
+    cardsSection.renderItems(places);
   })
   .catch((err) => {
     userProfile.saveUserInfo({
