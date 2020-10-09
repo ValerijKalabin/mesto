@@ -162,8 +162,9 @@ const getCard = (item) => {
 
 const cardsSection = new Section(
   {
-    renderer: (item) => {
-      cardsSection.addItem(getCard(item));
+    renderer: (item, numberItems) => {
+      let isManyItems = numberItems > 1;
+      cardsSection.addItem(getCard(item), isManyItems);
     }
   },
   '.elements'
