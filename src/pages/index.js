@@ -35,8 +35,7 @@ const api = new Api({
 });
 
 const userProfile = new UserInfo({
-  avatarClass: 'profile__avatar',
-  avatarAlt: 'Аватар',
+  avatarSelector: '.profile__avatar',
   titleSelector: '.profile__title',
   subtitleSelector: '.profile__description'
 });
@@ -50,7 +49,7 @@ const popupProfile = new PopupWithForm(
       api.saveUserInfo(dataUser)
         .then((profile) => {
           userProfile.saveUserInfo(profile);
-          userProfile.setUserInfo();
+          userProfile.setTitle();
           popupProfile.close();
         })
         .catch ((err) => {
@@ -70,7 +69,7 @@ const popupAvatar = new PopupWithForm(
       api.saveUserAvatar(dataAvatar)
         .then((profile) => {
           userProfile.saveUserInfo(profile);
-          avatarSection.renderItems([profile.avatar]);
+          userProfile.setAvatar();
           popupAvatar.close();
         })
         .catch ((err) => {
@@ -161,15 +160,6 @@ const getCard = (item) => {
   return card.generateCard();
 };
 
-const avatarSection = new Section(
-  {
-    renderer: (item) => {
-      avatarSection.addItem(userProfile.getAvatar(item));
-    }
-  },
-  '.profile__avatar-button'
-);
-
 const cardsSection = new Section(
   {
     renderer: (item) => {
@@ -205,8 +195,8 @@ popupAvatar.setEventListeners();
 api.getUserProfile()
   .then((profile) => {
     userProfile.saveUserInfo(profile);
-    avatarSection.renderItems([profile.avatar]);
-    userProfile.setUserInfo();
+    userProfile.setAvatar();
+    userProfile.setTitle();
     api.getInitialCards()
       .then((places) => {
         cardsSection.renderItems(places);
@@ -220,10 +210,11 @@ api.getUserProfile()
   })
   .catch((err) => {
     userProfile.saveUserInfo({
+      avatar: errAvatar,
       name: err.status ? err.status : 'Error',
       about: err.statusText ? err.statusText : 'There is no Internet connection',
       _id: ''
     });
-    avatarSection.renderItems([errAvatar]);
-    userProfile.setUserInfo();
+    userProfile.setAvatar();
+    userProfile.setTitle();
   });
