@@ -4,6 +4,7 @@ export default class PopupWithConfirmation extends Popup
   constructor({ handleButtonConfirm }, popupSelector) {
     super(popupSelector);
     this._handleButtonConfirm = handleButtonConfirm;
+    this._button = this._popup.querySelector('.popup__button');
   }
 
   open(cardID, card) {
@@ -14,7 +15,6 @@ export default class PopupWithConfirmation extends Popup
   }
 
   setEventListeners() {
-    this._button = this._popup.querySelector('.popup__button');
     this._button.addEventListener('click', () => {
       this._setSubmitButtonText('Удаление...');
       this._handleButtonConfirm(this._cardID, this._card);
