@@ -52,6 +52,7 @@ const popupProfile = new PopupWithForm(
           popupProfile.close();
         })
         .catch ((err) => {
+          popupProfile.setSubmitButtonText('Сохранить');
           alert(`Ошибка записи данных пользователя ${err.status}`);
         });
     }
@@ -72,6 +73,7 @@ const popupAvatar = new PopupWithForm(
           popupAvatar.close();
         })
         .catch ((err) => {
+          popupAvatar.setSubmitButtonText('Сохранить');
           alert(`Ошибка записи аватара пользователя ${err.status}`)
         });
     }
@@ -91,6 +93,7 @@ const popupPlace = new PopupWithForm(
           popupPlace.close();
         })
         .catch ((err) => {
+          popupPlace.setSubmitButtonText('Сохранить');
           alert(`Ошибка записи данных нового места ${err.status}`)
         });
     }
@@ -115,6 +118,7 @@ const popupConfirm = new PopupWithConfirmation(
           popupConfirm.close();
         })
         .catch((err) => {
+          popupConfirm.setSubmitButtonText('Да');
           alert(`Ошибка при удалении карточки на сервере: ${err.status}`)
         });
     }

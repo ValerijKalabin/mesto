@@ -10,18 +10,18 @@ export default class PopupWithConfirmation extends Popup
   open(cardID, card) {
     this._cardID = cardID;
     this._card = card;
-    this._setSubmitButtonText('Да');
+    this.setSubmitButtonText('Да');
     super.open();
   }
 
   setEventListeners() {
     this._button.addEventListener('click', () => {
-      this._setSubmitButtonText('Удаление...');
+      this.setSubmitButtonText('Удаление...');
       this._handleButtonConfirm(this._cardID, this._card);
     })
   }
 
-  _setSubmitButtonText(textContent) {
+  setSubmitButtonText(textContent) {
     this._button.textContent = textContent;
   }
 }

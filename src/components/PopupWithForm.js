@@ -11,14 +11,14 @@ export default class PopupWithForm extends Popup
   }
 
   open() {
-    this._setSubmitButtonText('Сохранить');
+    this.setSubmitButtonText('Сохранить');
     this._resetPopupForm();
     super.open();
   }
 
   setEventListeners() {
     this._form.addEventListener('submit', () => {
-      this._setSubmitButtonText('Сохранение...');
+      this.setSubmitButtonText('Сохранение...');
       this._handleFormSubmit(this._getInputValues());
     })
   }
@@ -29,7 +29,7 @@ export default class PopupWithForm extends Popup
     return this._formValues;
   }
 
-  _setSubmitButtonText(textContent) {
+  setSubmitButtonText(textContent) {
     this._button.textContent = textContent;
   }
 }
