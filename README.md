@@ -16,3 +16,5 @@
 **Картинки**
 
 [Оптимизировать картинки](https://tinypng.com/).
+
+View the site [https://valerijkalabin.github.io/mesto/index.html]
