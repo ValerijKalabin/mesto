@@ -5,17 +5,18 @@ export default class Section
     this._container = document.querySelector(containerSelector);
   }
 
-  addItem(item, isManyItems) {
-    if (isManyItems) {
-      this._container.append(item);
+  addItem(element, isManyElements) {
+    if (isManyElements) {
+      this._container.append(element);
     } else {
-      this._container.prepend(item);
+      this._container.prepend(element);
     }
   }
 
   renderItems(items) {
-    items.forEach((item, index, items) => {
-      this._renderer(item, items.length);
+    let numberItems = items.length;
+    items.forEach((item) => {
+      this._renderer(item, numberItems);
     });
   }
 }
