@@ -8,10 +8,10 @@ export default class Card
     this._handleLikeDelete = handleLikeDelete;
     this._title = place.name;
     this._image = place.link;
-    this._usersID = place.likes ? place.likes.map(user => user._id) : [];
-    this._likesCount = place.likes ? place.likes.length : 0;
-    this._cardID = place._id ? place._id : 0;
-    this._cardUserID = place.owner ? place.owner._id : 0;
+    this._usersID = place.likes.map(user => user._id);
+    this._likesCount = place.likes.length;
+    this._cardID = place._id;
+    this._cardUserID = place.owner;
     this._userID = userID;
   }
 
